@@ -1,6 +1,6 @@
 import type { NextAuthConfig } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import { getUserByEmail, verifyPassword, createMagicToken, verifyMagicToken } from "@/lib/auth/users"
+import { getUserByEmail, verifyPassword } from "@/lib/auth/users"
 
 export const authConfig: NextAuthConfig = {
   pages: {
@@ -42,36 +42,6 @@ export const authConfig: NextAuthConfig = {
         }
       },
     }),
-    // Email provider (magic link simulation)
-    {
-      id: "magic-link",
-      name: "Magic Link",
-      type: "email",
-      from: "noreply@skillsync.com",
-      server: {},
-      maxAge: 15 * 60, // 15 minutes
-      async sendVerificationRequest({ identifier: email, url, provider }: {
-        identifier: string
-        url: string
-        provider: any
-      }) {
-        // In production, this would send an actual email
-        // For MVP, we'll just log the magic link
-        console.log(`
-========================================
-Magic Link for ${email}
-========================================
-${url}
-========================================
-        `)
-      },
-      async generateVerificationToken() {
-        return Math.random().toString(36).slice(2) + Date.now().toString(36)
-      },
-      async normalize(identifier: string) {
-        return identifier.toLowerCase()
-      },
-    } as any,
   ],
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {

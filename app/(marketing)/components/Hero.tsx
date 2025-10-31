@@ -9,7 +9,7 @@ export function Hero() {
       {/* Background gradient */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background" />
 
-      <div className="container">
+      <div className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           {/* Badge */}
           <Badge variant="secondary" className="mb-6 px-4 py-1.5">

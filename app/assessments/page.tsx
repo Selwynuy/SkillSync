@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight, ClipboardList, Clock } from "lucide-react"
+import { Navbar } from "@/app/(marketing)/components/Navbar"
+import { Footer } from "@/app/(marketing)/components/Footer"
+import { SkipToContent } from "@/components/common/skip-to-content"
 
 export default async function AssessmentsPage() {
   const user = await requireUser()
@@ -16,15 +19,26 @@ export default async function AssessmentsPage() {
 
   if (!mainAssessment) {
     return (
-      <div className="container flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">No assessments available</p>
+      <div className="flex min-h-screen flex-col">
+        <SkipToContent />
+        <Navbar />
+        <main id="main-content" className="flex-1" role="main">
+          <div className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 flex min-h-[60vh] items-center justify-center">
+            <p className="text-muted-foreground">No assessments available</p>
+          </div>
+        </main>
+        <Footer />
       </div>
     )
   }
 
   return (
-    <div className="container py-12">
-      <div className="mx-auto max-w-4xl">
+    <div className="flex min-h-screen flex-col">
+      <SkipToContent />
+      <Navbar />
+      <main id="main-content" className="flex-1" role="main">
+        <div className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 py-12">
+          <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-8">
           <h1 className="mb-2 text-3xl font-bold tracking-tight">
@@ -122,7 +136,10 @@ export default async function AssessmentsPage() {
             .
           </p>
         </div>
-      </div>
+          </div>
+        </div>
+      </main>
+      <Footer />
     </div>
   )
 }

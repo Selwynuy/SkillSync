@@ -17,6 +17,9 @@ import {
   Loader2
 } from "lucide-react";
 import type { Recommendation } from "@/lib/types";
+import { Navbar } from "@/app/(marketing)/components/Navbar";
+import { Footer } from "@/app/(marketing)/components/Footer";
+import { SkipToContent } from "@/components/common/skip-to-content";
 
 export default function RecommendationsPage() {
   const router = useRouter();
@@ -119,41 +122,59 @@ export default function RecommendationsPage() {
 
   if (loading) {
     return (
-      <div className="container flex min-h-screen items-center justify-center">
-        <div className="flex flex-col items-center gap-2">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-muted-foreground">Loading your recommendations...</p>
-        </div>
+      <div className="flex min-h-screen flex-col">
+        <SkipToContent />
+        <Navbar />
+        <main id="main-content" className="flex-1" role="main">
+          <div className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 flex min-h-[60vh] items-center justify-center">
+            <div className="flex flex-col items-center gap-2">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <p className="text-muted-foreground">Loading your recommendations...</p>
+            </div>
+          </div>
+        </main>
+        <Footer />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container py-12">
-        <div className="mx-auto max-w-2xl">
-          <Card className="border-destructive/50">
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <AlertCircle className="h-5 w-5 text-destructive" />
-                <CardTitle>No Recommendations Available</CardTitle>
-              </div>
-              <CardDescription>{error}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={() => router.push("/assessments")}>
-                Take Assessment
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+      <div className="flex min-h-screen flex-col">
+        <SkipToContent />
+        <Navbar />
+        <main id="main-content" className="flex-1" role="main">
+          <div className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 py-12">
+            <div className="mx-auto max-w-2xl">
+              <Card className="border-destructive/50">
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="h-5 w-5 text-destructive" />
+                    <CardTitle>No Recommendations Available</CardTitle>
+                  </div>
+                  <CardDescription>{error}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button onClick={() => router.push("/assessments")}>
+                    Take Assessment
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </main>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="container py-12">
-      <div className="mx-auto max-w-6xl">
+    <div className="flex min-h-screen flex-col">
+      <SkipToContent />
+      <Navbar />
+      <main id="main-content" className="flex-1" role="main">
+        <div className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 py-12">
+          <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-2">
@@ -318,7 +339,10 @@ export default function RecommendationsPage() {
             </Button>
           </div>
         </div>
-      </div>
+          </div>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 }

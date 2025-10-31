@@ -32,7 +32,7 @@ export function Footer() {
 
   return (
     <footer className="border-t bg-muted/40" role="contentinfo">
-      <div className="container py-12 md:py-16">
+      <div className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>

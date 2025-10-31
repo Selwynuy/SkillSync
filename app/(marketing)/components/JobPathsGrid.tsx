@@ -12,7 +12,7 @@ export async function JobPathsGrid() {
 
   return (
     <section id="job-paths" className="py-20 md:py-32" aria-labelledby="job-paths-heading">
-      <div className="container">
+      <div className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-12 text-center">
           <h2 id="job-paths-heading" className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
