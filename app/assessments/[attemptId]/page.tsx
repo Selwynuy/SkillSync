@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter, useParams, useSearchParams } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { Button } from "@/components/ui/button"
@@ -37,11 +37,24 @@ export default function AssessmentFlowPage() {
     }
   }, [status, router])
 
+  // Stable assessment id (avoid effect retrigger after replaceState)
+  const initialAssessmentIdRef = useRef<string | null>(null)
+  if (initialAssessmentIdRef.current === null) {
+    initialAssessmentIdRef.current = searchParams.get("assessmentId") || "assessment-001"
+  }
+
+  // Guards to avoid duplicate network calls in React Strict Mode / rerenders
+  const hasLoadedRef = useRef(false)
+  const hasCreatedAttemptRef = useRef(false)
+
   // Load assessment data
   useEffect(() => {
     async function loadAssessment() {
       try {
-        const assessmentId = searchParams.get("assessmentId") || "assessment-001"
+        if (hasLoadedRef.current) return
+        hasLoadedRef.current = true
+
+        const assessmentId = initialAssessmentIdRef.current as string
         const response = await fetch(`/api/assessments/${assessmentId}`)
 
         if (!response.ok) {
@@ -53,6 +66,11 @@ export default function AssessmentFlowPage() {
 
         // Create or load attempt
         if (params.attemptId === "new") {
+          if (hasCreatedAttemptRef.current) {
+            setIsLoading(false)
+            return
+          }
+          hasCreatedAttemptRef.current = true
           const attemptResponse = await fetch("/api/assessments/attempts", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -97,12 +115,15 @@ export default function AssessmentFlowPage() {
     if (status === "authenticated") {
       loadAssessment()
     }
-  }, [params.attemptId, searchParams, status, router])
+  }, [params.attemptId, status, router])
 
-  // Auto-save progress
+  // Auto-save progress (debounced + change guard)
+  const lastSavedKeyRef = useRef<string>("")
   useEffect(() => {
+    const key = `${responses.size}:${currentModuleIndex}`
     const saveProgress = async () => {
       if (!attemptId || !assessment || isSaving) return
+      if (lastSavedKeyRef.current === key) return
 
       setIsSaving(true)
       try {
@@ -114,6 +135,7 @@ export default function AssessmentFlowPage() {
             currentModuleIndex,
           }),
         })
+        lastSavedKeyRef.current = key
       } catch (error) {
         console.error("Failed to save progress:", error)
       } finally {
@@ -121,8 +143,31 @@ export default function AssessmentFlowPage() {
       }
     }
 
-    const timeoutId = setTimeout(saveProgress, 1000)
-    return () => clearTimeout(timeoutId)
+    const timeoutId = setTimeout(saveProgress, 3000) // slower debounce
+
+    // Save on tab hide/close
+    const handleVisibility = () => {
+      if (document.visibilityState === "hidden") {
+        // Fire-and-forget sync save; not awaiting inside handler
+        fetch(`/api/assessments/attempts/${attemptId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            responses: Array.from(responses.values()),
+            currentModuleIndex,
+          }),
+          keepalive: true,
+        }).then(() => {
+          lastSavedKeyRef.current = key
+        }).catch(() => {})
+      }
+    }
+    document.addEventListener("visibilitychange", handleVisibility)
+
+    return () => {
+      clearTimeout(timeoutId)
+      document.removeEventListener("visibilitychange", handleVisibility)
+    }
   }, [responses, currentModuleIndex, attemptId, assessment, isSaving])
 
   if (status === "loading" || isLoading) {
@@ -218,7 +263,7 @@ export default function AssessmentFlowPage() {
 
   return (
     <div className="min-h-screen bg-muted/20 py-8">
-      <div className="container max-w-3xl">
+      <div className="mx-auto w-full max-w-3xl px-4 md:px-6 lg:px-8">
         {/* Progress Bar */}
         <div className="mb-6">
           <div className="mb-2 flex items-center justify-between text-sm">
