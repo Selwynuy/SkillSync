@@ -1,0 +1,347 @@
+{
+  "id": "assessment-001",
+  "title": "Career Fit Assessment",
+  "description": "Discover your ideal career path through this comprehensive assessment. Answer questions about your interests, values, and preferences to receive personalized job recommendations.",
+  "modules": [
+    {
+      "id": "module-001",
+      "title": "Analytical Thinking",
+      "description": "Assess your problem-solving and analytical abilities.",
+      "order": 1,
+      "questions": [
+        {
+          "id": "q-001",
+          "moduleId": "module-001",
+          "type": "likert",
+          "text": "I enjoy solving complex puzzles and brain teasers.",
+          "weights": {
+            "analytical": 1.0,
+            "creative": 0.2
+          }
+        },
+        {
+          "id": "q-002",
+          "moduleId": "module-001",
+          "type": "likert",
+          "text": "I prefer working with numbers and data over working with people.",
+          "weights": {
+            "analytical": 0.8,
+            "social": -0.6
+          }
+        },
+        {
+          "id": "q-003",
+          "moduleId": "module-001",
+          "type": "likert",
+          "text": "I like to understand how things work by taking them apart.",
+          "weights": {
+            "analytical": 0.9,
+            "technical": 0.7,
+            "hands-on": 0.5
+          }
+        },
+        {
+          "id": "q-004",
+          "moduleId": "module-001",
+          "type": "mcq",
+          "text": "When faced with a problem, I typically:",
+          "options": [
+            "Break it down into smaller parts",
+            "Look for creative solutions",
+            "Ask others for help",
+            "Use past experience to guide me"
+          ],
+          "weights": {
+            "analytical": 1.0,
+            "creative": 0.5,
+            "social": 0.3,
+            "traditional": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "module-002",
+      "title": "Technical Skills",
+      "description": "Evaluate your interest in technology and technical work.",
+      "order": 2,
+      "questions": [
+        {
+          "id": "q-005",
+          "moduleId": "module-002",
+          "type": "likert",
+          "text": "I am comfortable learning new software and technology.",
+          "weights": {
+            "technical": 1.0,
+            "adaptable": 0.6
+          }
+        },
+        {
+          "id": "q-006",
+          "moduleId": "module-002",
+          "type": "likert",
+          "text": "I enjoy building or fixing things with my hands.",
+          "weights": {
+            "technical": 0.7,
+            "hands-on": 1.0
+          }
+        },
+        {
+          "id": "q-007",
+          "moduleId": "module-002",
+          "type": "likert",
+          "text": "I would rather work with tools and machines than with paperwork.",
+          "weights": {
+            "hands-on": 0.9,
+            "technical": 0.6,
+            "administrative": -0.5
+          }
+        },
+        {
+          "id": "q-008",
+          "moduleId": "module-002",
+          "type": "mcq",
+          "text": "Which activity sounds most appealing?",
+          "options": [
+            "Programming a website",
+            "Repairing an engine",
+            "Designing a poster",
+            "Organizing an event"
+          ],
+          "weights": {
+            "technical": 0.9,
+            "hands-on": 0.8,
+            "creative": 0.7,
+            "social": 0.6
+          }
+        }
+      ]
+    },
+    {
+      "id": "module-003",
+      "title": "Interpersonal Skills",
+      "description": "Measure your preference for working with others.",
+      "order": 3,
+      "questions": [
+        {
+          "id": "q-009",
+          "moduleId": "module-003",
+          "type": "likert",
+          "text": "I enjoy helping others solve their problems.",
+          "weights": {
+            "empathetic": 1.0,
+            "social": 0.8
+          }
+        },
+        {
+          "id": "q-010",
+          "moduleId": "module-003",
+          "type": "likert",
+          "text": "I prefer working in teams rather than working alone.",
+          "weights": {
+            "social": 1.0,
+            "collaborative": 0.9
+          }
+        },
+        {
+          "id": "q-011",
+          "moduleId": "module-003",
+          "type": "likert",
+          "text": "I am good at understanding how others feel.",
+          "weights": {
+            "empathetic": 1.0,
+            "emotional-intelligence": 0.9
+          }
+        },
+        {
+          "id": "q-012",
+          "moduleId": "module-003",
+          "type": "mcq",
+          "text": "In a group project, I usually:",
+          "options": [
+            "Take the lead and organize everyone",
+            "Come up with creative ideas",
+            "Do the detailed work carefully",
+            "Support and encourage others"
+          ],
+          "weights": {
+            "leadership": 1.0,
+            "creative": 0.8,
+            "detail-oriented": 0.7,
+            "empathetic": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "id": "module-004",
+      "title": "Creativity & Innovation",
+      "description": "Explore your creative thinking and innovative mindset.",
+      "order": 4,
+      "questions": [
+        {
+          "id": "q-013",
+          "moduleId": "module-004",
+          "type": "likert",
+          "text": "I enjoy coming up with new ideas and approaches.",
+          "weights": {
+            "creative": 1.0,
+            "innovative": 0.9
+          }
+        },
+        {
+          "id": "q-014",
+          "moduleId": "module-004",
+          "type": "likert",
+          "text": "I like expressing myself through art, music, or writing.",
+          "weights": {
+            "creative": 1.0,
+            "artistic": 1.0
+          }
+        },
+        {
+          "id": "q-015",
+          "moduleId": "module-004",
+          "type": "likert",
+          "text": "I prefer jobs that allow me to think outside the box.",
+          "weights": {
+            "creative": 0.9,
+            "innovative": 0.8,
+            "traditional": -0.5
+          }
+        },
+        {
+          "id": "q-016",
+          "moduleId": "module-004",
+          "type": "mcq",
+          "text": "When starting a new project, I:",
+          "options": [
+            "Follow proven methods and guidelines",
+            "Experiment with new approaches",
+            "Ask for input from others",
+            "Research best practices first"
+          ],
+          "weights": {
+            "traditional": 0.7,
+            "innovative": 1.0,
+            "collaborative": 0.6,
+            "analytical": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "module-005",
+      "title": "Work Environment Preferences",
+      "description": "Identify your ideal work setting and conditions.",
+      "order": 5,
+      "questions": [
+        {
+          "id": "q-017",
+          "moduleId": "module-005",
+          "type": "likert",
+          "text": "I prefer working in an office environment over outdoor settings.",
+          "weights": {
+            "indoor": 0.8,
+            "outdoor": -0.8
+          }
+        },
+        {
+          "id": "q-018",
+          "moduleId": "module-005",
+          "type": "likert",
+          "text": "I enjoy physical activity and being on my feet during work.",
+          "weights": {
+            "physical": 1.0,
+            "hands-on": 0.7
+          }
+        },
+        {
+          "id": "q-019",
+          "moduleId": "module-005",
+          "type": "likert",
+          "text": "I would like a job with a flexible schedule.",
+          "weights": {
+            "flexible": 1.0,
+            "autonomous": 0.6
+          }
+        },
+        {
+          "id": "q-020",
+          "moduleId": "module-005",
+          "type": "mcq",
+          "text": "My ideal work day would involve:",
+          "options": [
+            "Sitting at a desk working on a computer",
+            "Moving around and working with my hands",
+            "Meeting and talking with people",
+            "A mix of different activities"
+          ],
+          "weights": {
+            "technical": 0.8,
+            "hands-on": 0.9,
+            "social": 0.9,
+            "versatile": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "module-006",
+      "title": "Values & Motivations",
+      "description": "Understand what drives and motivates you in a career.",
+      "order": 6,
+      "questions": [
+        {
+          "id": "q-021",
+          "moduleId": "module-006",
+          "type": "likert",
+          "text": "Making a positive difference in people's lives is very important to me.",
+          "weights": {
+            "empathetic": 1.0,
+            "altruistic": 1.0
+          }
+        },
+        {
+          "id": "q-022",
+          "moduleId": "module-006",
+          "type": "likert",
+          "text": "I am motivated by high earning potential.",
+          "weights": {
+            "financially-driven": 1.0,
+            "ambitious": 0.7
+          }
+        },
+        {
+          "id": "q-023",
+          "moduleId": "module-006",
+          "type": "likert",
+          "text": "Job security is more important to me than excitement.",
+          "weights": {
+            "security-oriented": 1.0,
+            "risk-averse": 0.8,
+            "adventurous": -0.6
+          }
+        },
+        {
+          "id": "q-024",
+          "moduleId": "module-006",
+          "type": "mcq",
+          "text": "In a job, I value most:",
+          "options": [
+            "Good salary and benefits",
+            "Making a difference",
+            "Creative freedom",
+            "Work-life balance"
+          ],
+          "weights": {
+            "financially-driven": 1.0,
+            "altruistic": 1.0,
+            "creative": 1.0,
+            "balanced": 1.0
+          }
+        }
+      ]
+    }
+  ]
+}

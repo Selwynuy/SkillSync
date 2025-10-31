@@ -1,0 +1,194 @@
+[
+  {
+    "id": "college-001",
+    "name": "State University",
+    "location": "College Town, CA",
+    "state": "CA",
+    "programs": ["Computer Science", "Engineering", "Business", "Nursing", "Education"],
+    "degreeLevel": ["Bachelor's", "Master's", "Doctorate"],
+    "tuition": {
+      "inState": 12500,
+      "outOfState": 28000
+    },
+    "acceptanceRate": 68,
+    "modality": ["On-campus", "Hybrid"],
+    "url": "https://example.edu/state-university",
+    "imageUrl": "/images/colleges/state-university.jpg"
+  },
+  {
+    "id": "college-002",
+    "name": "Tech Institute of Technology",
+    "location": "Silicon Valley, CA",
+    "state": "CA",
+    "programs": ["Computer Science", "Data Science", "Software Engineering", "Cybersecurity"],
+    "degreeLevel": ["Bachelor's", "Master's"],
+    "tuition": {
+      "inState": 45000,
+      "outOfState": 45000
+    },
+    "acceptanceRate": 15,
+    "modality": ["On-campus"],
+    "url": "https://example.edu/tech-institute",
+    "imageUrl": "/images/colleges/tech-institute.jpg"
+  },
+  {
+    "id": "college-003",
+    "name": "Community College of the Valley",
+    "location": "Valley City, AZ",
+    "state": "AZ",
+    "programs": ["General Studies", "Nursing", "Business", "Graphic Design", "Culinary Arts"],
+    "degreeLevel": ["Associate"],
+    "tuition": {
+      "inState": 3200,
+      "outOfState": 8500
+    },
+    "acceptanceRate": 100,
+    "modality": ["On-campus", "Online", "Hybrid"],
+    "url": "https://example.edu/valley-cc",
+    "imageUrl": "/images/colleges/valley-cc.jpg"
+  },
+  {
+    "id": "college-004",
+    "name": "Liberal Arts College",
+    "location": "New England, MA",
+    "state": "MA",
+    "programs": ["Psychology", "English", "History", "Political Science", "Art"],
+    "degreeLevel": ["Bachelor's"],
+    "tuition": {
+      "inState": 52000,
+      "outOfState": 52000
+    },
+    "acceptanceRate": 28,
+    "modality": ["On-campus"],
+    "url": "https://example.edu/liberal-arts",
+    "imageUrl": "/images/colleges/liberal-arts.jpg"
+  },
+  {
+    "id": "college-005",
+    "name": "Online University",
+    "location": "Virtual Campus",
+    "state": "FL",
+    "programs": ["Business Administration", "Healthcare Management", "Psychology", "IT"],
+    "degreeLevel": ["Associate", "Bachelor's", "Master's"],
+    "tuition": {
+      "inState": 8500,
+      "outOfState": 8500
+    },
+    "acceptanceRate": 85,
+    "modality": ["Online"],
+    "url": "https://example.edu/online-university",
+    "imageUrl": "/images/colleges/online-university.jpg"
+  },
+  {
+    "id": "college-006",
+    "name": "Metropolitan University",
+    "location": "Chicago, IL",
+    "state": "IL",
+    "programs": ["Engineering", "Computer Science", "Business", "Architecture", "Law"],
+    "degreeLevel": ["Bachelor's", "Master's", "Doctorate"],
+    "tuition": {
+      "inState": 18000,
+      "outOfState": 32000
+    },
+    "acceptanceRate": 55,
+    "modality": ["On-campus", "Hybrid"],
+    "url": "https://example.edu/metro-university",
+    "imageUrl": "/images/colleges/metro-university.jpg"
+  },
+  {
+    "id": "college-007",
+    "name": "Health Sciences University",
+    "location": "Medical City, TX",
+    "state": "TX",
+    "programs": ["Nursing", "Physical Therapy", "Pharmacy", "Medical Technology"],
+    "degreeLevel": ["Bachelor's", "Master's", "Doctorate"],
+    "tuition": {
+      "inState": 22000,
+      "outOfState": 38000
+    },
+    "acceptanceRate": 42,
+    "modality": ["On-campus"],
+    "url": "https://example.edu/health-sciences",
+    "imageUrl": "/images/colleges/health-sciences.jpg"
+  },
+  {
+    "id": "college-008",
+    "name": "Art & Design Institute",
+    "location": "Creative City, NY",
+    "state": "NY",
+    "programs": ["Graphic Design", "Fine Arts", "Fashion Design", "Interior Design", "Photography"],
+    "degreeLevel": ["Associate", "Bachelor's", "Master's"],
+    "tuition": {
+      "inState": 42000,
+      "outOfState": 42000
+    },
+    "acceptanceRate": 35,
+    "modality": ["On-campus", "Hybrid"],
+    "url": "https://example.edu/art-design",
+    "imageUrl": "/images/colleges/art-design.jpg"
+  },
+  {
+    "id": "college-009",
+    "name": "Technical Trade School",
+    "location": "Industrial Park, OH",
+    "state": "OH",
+    "programs": ["Electrician", "HVAC", "Welding", "Automotive Technology", "Plumbing"],
+    "degreeLevel": ["Associate"],
+    "tuition": {
+      "inState": 15000,
+      "outOfState": 18000
+    },
+    "acceptanceRate": 92,
+    "modality": ["On-campus"],
+    "url": "https://example.edu/tech-trade",
+    "imageUrl": "/images/colleges/tech-trade.jpg"
+  },
+  {
+    "id": "college-010",
+    "name": "Business School of Excellence",
+    "location": "Financial District, NY",
+    "state": "NY",
+    "programs": ["Business Administration", "Finance", "Marketing", "Economics", "Accounting"],
+    "degreeLevel": ["Bachelor's", "Master's"],
+    "tuition": {
+      "inState": 58000,
+      "outOfState": 58000
+    },
+    "acceptanceRate": 22,
+    "modality": ["On-campus", "Hybrid"],
+    "url": "https://example.edu/business-excellence",
+    "imageUrl": "/images/colleges/business-excellence.jpg"
+  },
+  {
+    "id": "college-011",
+    "name": "State College - North Campus",
+    "location": "Northtown, WA",
+    "state": "WA",
+    "programs": ["General Studies", "Business", "Computer Science", "Education", "Biology"],
+    "degreeLevel": ["Associate", "Bachelor's"],
+    "tuition": {
+      "inState": 8900,
+      "outOfState": 22000
+    },
+    "acceptanceRate": 75,
+    "modality": ["On-campus", "Online", "Hybrid"],
+    "url": "https://example.edu/state-north",
+    "imageUrl": "/images/colleges/state-north.jpg"
+  },
+  {
+    "id": "college-012",
+    "name": "Engineering University",
+    "location": "Tech Hub, GA",
+    "state": "GA",
+    "programs": ["Mechanical Engineering", "Electrical Engineering", "Civil Engineering", "Aerospace Engineering"],
+    "degreeLevel": ["Bachelor's", "Master's", "Doctorate"],
+    "tuition": {
+      "inState": 14500,
+      "outOfState": 31000
+    },
+    "acceptanceRate": 32,
+    "modality": ["On-campus"],
+    "url": "https://example.edu/engineering-u",
+    "imageUrl": "/images/colleges/engineering-u.jpg"
+  }
+]

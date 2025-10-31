@@ -1,0 +1,182 @@
+[
+  {
+    "id": "jp-001",
+    "title": "Software Developer",
+    "description": "Design, develop, and maintain software applications. Work with programming languages, frameworks, and databases to create solutions that solve real-world problems.",
+    "category": "Technology",
+    "vector": [0.85, 0.75, 0.4, 0.9, 0.6, 0.7, 0.5, 0.8],
+    "tags": ["analytical", "problem-solving", "technical", "creative"],
+    "salaryRange": {
+      "min": 65000,
+      "max": 120000
+    },
+    "educationLevel": "Bachelor's",
+    "growthRate": 22,
+    "imageUrl": "/images/careers/software-developer.jpg"
+  },
+  {
+    "id": "jp-002",
+    "title": "Registered Nurse",
+    "description": "Provide patient care, administer medications, and collaborate with healthcare teams to promote health and wellness.",
+    "category": "Healthcare",
+    "vector": [0.6, 0.5, 0.9, 0.7, 0.85, 0.8, 0.9, 0.6],
+    "tags": ["empathetic", "caring", "detail-oriented", "hands-on"],
+    "salaryRange": {
+      "min": 60000,
+      "max": 95000
+    },
+    "educationLevel": "Bachelor's",
+    "growthRate": 9,
+    "imageUrl": "/images/careers/nurse.jpg"
+  },
+  {
+    "id": "jp-003",
+    "title": "Graphic Designer",
+    "description": "Create visual concepts using computer software or by hand to communicate ideas that inspire, inform, and captivate consumers.",
+    "category": "Creative Arts",
+    "vector": [0.7, 0.3, 0.5, 0.95, 0.4, 0.6, 0.4, 0.75],
+    "tags": ["creative", "artistic", "visual", "innovative"],
+    "salaryRange": {
+      "min": 45000,
+      "max": 75000
+    },
+    "educationLevel": "Bachelor's",
+    "growthRate": 3,
+    "imageUrl": "/images/careers/graphic-designer.jpg"
+  },
+  {
+    "id": "jp-004",
+    "title": "Electrician",
+    "description": "Install, maintain, and repair electrical systems in homes, businesses, and factories. Work with wiring, circuits, and electrical equipment.",
+    "category": "Skilled Trades",
+    "vector": [0.75, 0.8, 0.6, 0.5, 0.7, 0.9, 0.6, 0.65],
+    "tags": ["hands-on", "technical", "problem-solving", "physical"],
+    "salaryRange": {
+      "min": 50000,
+      "max": 85000
+    },
+    "educationLevel": "High School",
+    "growthRate": 8,
+    "imageUrl": "/images/careers/electrician.jpg"
+  },
+  {
+    "id": "jp-005",
+    "title": "Marketing Manager",
+    "description": "Plan, direct, and coordinate marketing policies and programs. Identify potential customers and develop pricing strategies.",
+    "category": "Business",
+    "vector": [0.7, 0.65, 0.6, 0.8, 0.5, 0.55, 0.7, 0.85],
+    "tags": ["leadership", "creative", "strategic", "communication"],
+    "salaryRange": {
+      "min": 70000,
+      "max": 130000
+    },
+    "educationLevel": "Bachelor's",
+    "growthRate": 10,
+    "imageUrl": "/images/careers/marketing-manager.jpg"
+  },
+  {
+    "id": "jp-006",
+    "title": "Data Scientist",
+    "description": "Analyze complex data to help organizations make better business decisions. Use statistical methods, machine learning, and programming.",
+    "category": "Technology",
+    "vector": [0.95, 0.85, 0.4, 0.6, 0.5, 0.5, 0.45, 0.75],
+    "tags": ["analytical", "mathematical", "technical", "research"],
+    "salaryRange": {
+      "min": 80000,
+      "max": 150000
+    },
+    "educationLevel": "Master's",
+    "growthRate": 36,
+    "imageUrl": "/images/careers/data-scientist.jpg"
+  },
+  {
+    "id": "jp-007",
+    "title": "Teacher",
+    "description": "Educate students in various subjects, develop lesson plans, and assess student progress. Create engaging learning environments.",
+    "category": "Education",
+    "vector": [0.6, 0.5, 0.85, 0.65, 0.7, 0.5, 0.9, 0.7],
+    "tags": ["empathetic", "patient", "communication", "caring"],
+    "salaryRange": {
+      "min": 45000,
+      "max": 70000
+    },
+    "educationLevel": "Bachelor's",
+    "growthRate": 4,
+    "imageUrl": "/images/careers/teacher.jpg"
+  },
+  {
+    "id": "jp-008",
+    "title": "Mechanical Engineer",
+    "description": "Design, develop, and test mechanical devices and systems. Work on everything from small components to large machinery.",
+    "category": "Engineering",
+    "vector": [0.9, 0.85, 0.5, 0.7, 0.6, 0.75, 0.5, 0.65],
+    "tags": ["analytical", "technical", "problem-solving", "innovative"],
+    "salaryRange": {
+      "min": 70000,
+      "max": 110000
+    },
+    "educationLevel": "Bachelor's",
+    "growthRate": 7,
+    "imageUrl": "/images/careers/mechanical-engineer.jpg"
+  },
+  {
+    "id": "jp-009",
+    "title": "Chef",
+    "description": "Plan menus, prepare meals, and manage kitchen staff. Create innovative dishes and ensure food quality and safety.",
+    "category": "Culinary Arts",
+    "vector": [0.5, 0.6, 0.7, 0.85, 0.55, 0.8, 0.65, 0.6],
+    "tags": ["creative", "hands-on", "artistic", "leadership"],
+    "salaryRange": {
+      "min": 40000,
+      "max": 80000
+    },
+    "educationLevel": "High School",
+    "growthRate": 6,
+    "imageUrl": "/images/careers/chef.jpg"
+  },
+  {
+    "id": "jp-010",
+    "title": "Financial Analyst",
+    "description": "Assess financial data to help businesses make investment decisions. Create financial models and forecasts.",
+    "category": "Business",
+    "vector": [0.9, 0.7, 0.5, 0.4, 0.6, 0.45, 0.5, 0.8],
+    "tags": ["analytical", "detail-oriented", "mathematical", "strategic"],
+    "salaryRange": {
+      "min": 60000,
+      "max": 100000
+    },
+    "educationLevel": "Bachelor's",
+    "growthRate": 6,
+    "imageUrl": "/images/careers/financial-analyst.jpg"
+  },
+  {
+    "id": "jp-011",
+    "title": "Physical Therapist",
+    "description": "Help patients recover from injuries and improve their movement. Develop treatment plans and guide rehabilitation exercises.",
+    "category": "Healthcare",
+    "vector": [0.65, 0.6, 0.9, 0.5, 0.85, 0.75, 0.85, 0.55],
+    "tags": ["empathetic", "caring", "hands-on", "physical"],
+    "salaryRange": {
+      "min": 75000,
+      "max": 100000
+    },
+    "educationLevel": "Doctorate",
+    "growthRate": 18,
+    "imageUrl": "/images/careers/physical-therapist.jpg"
+  },
+  {
+    "id": "jp-012",
+    "title": "UX Designer",
+    "description": "Research, design, and optimize user experiences for digital products. Create wireframes, prototypes, and conduct user testing.",
+    "category": "Technology",
+    "vector": [0.7, 0.5, 0.75, 0.95, 0.6, 0.5, 0.7, 0.75],
+    "tags": ["creative", "empathetic", "analytical", "design"],
+    "salaryRange": {
+      "min": 70000,
+      "max": 120000
+    },
+    "educationLevel": "Bachelor's",
+    "growthRate": 13,
+    "imageUrl": "/images/careers/ux-designer.jpg"
+  }
+]

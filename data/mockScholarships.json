@@ -1,0 +1,227 @@
+[
+  {
+    "id": "scholarship-001",
+    "name": "STEM Excellence Scholarship",
+    "provider": "National Science Foundation",
+    "amount": 10000,
+    "type": "Merit",
+    "deadline": "2026-03-15T00:00:00Z",
+    "eligibility": [
+      "3.5 GPA or higher",
+      "Pursuing STEM degree",
+      "US citizen or permanent resident"
+    ],
+    "description": "Annual scholarship for outstanding students pursuing degrees in Science, Technology, Engineering, or Mathematics. Renewable for up to 4 years with maintained academic performance.",
+    "url": "https://example.org/stem-scholarship"
+  },
+  {
+    "id": "scholarship-002",
+    "name": "First Generation College Grant",
+    "provider": "Education Access Fund",
+    "amount": 5000,
+    "type": "Need-based",
+    "deadline": "2026-04-30T00:00:00Z",
+    "eligibility": [
+      "First generation college student",
+      "Family income below $60,000",
+      "Accepted to accredited college"
+    ],
+    "description": "Supporting first-generation college students in pursuing higher education. Includes mentorship program and academic support resources.",
+    "url": "https://example.org/first-gen-grant"
+  },
+  {
+    "id": "scholarship-003",
+    "name": "Women in Technology Award",
+    "provider": "Tech Diversity Initiative",
+    "amount": 7500,
+    "type": "Demographic",
+    "deadline": "2026-02-28T00:00:00Z",
+    "eligibility": [
+      "Female or non-binary student",
+      "Pursuing computer science or related field",
+      "Minimum 3.0 GPA"
+    ],
+    "description": "Encouraging diversity in technology fields. Recipients also receive mentorship from industry professionals and internship opportunities.",
+    "url": "https://example.org/women-in-tech"
+  },
+  {
+    "id": "scholarship-004",
+    "name": "Future Nurses Scholarship",
+    "provider": "Healthcare Workers Association",
+    "amount": 8000,
+    "type": "Field-specific",
+    "deadline": "2026-05-15T00:00:00Z",
+    "eligibility": [
+      "Enrolled in accredited nursing program",
+      "Minimum 3.2 GPA",
+      "Commitment to community healthcare"
+    ],
+    "description": "Supporting the next generation of nursing professionals. Priority given to students planning to work in underserved communities.",
+    "url": "https://example.org/future-nurses"
+  },
+  {
+    "id": "scholarship-005",
+    "name": "Community College Transfer Scholarship",
+    "provider": "Higher Education Alliance",
+    "amount": 4000,
+    "type": "Merit",
+    "deadline": "2026-06-01T00:00:00Z",
+    "eligibility": [
+      "Community college student transferring to 4-year institution",
+      "Minimum 3.5 GPA",
+      "60+ transfer credits"
+    ],
+    "description": "Recognizing academic excellence of community college students transitioning to four-year universities.",
+    "url": "https://example.org/cc-transfer"
+  },
+  {
+    "id": "scholarship-006",
+    "name": "Creative Arts Fellowship",
+    "provider": "National Arts Foundation",
+    "amount": 12000,
+    "type": "Field-specific",
+    "deadline": "2026-01-31T00:00:00Z",
+    "eligibility": [
+      "Pursuing degree in visual or performing arts",
+      "Portfolio submission required",
+      "Demonstrated artistic excellence"
+    ],
+    "description": "Supporting talented artists in their educational journey. Includes exhibition opportunities and professional development workshops.",
+    "url": "https://example.org/creative-arts"
+  },
+  {
+    "id": "scholarship-007",
+    "name": "Hispanic Heritage Scholarship",
+    "provider": "Latino Education Fund",
+    "amount": 6000,
+    "type": "Demographic",
+    "deadline": "2026-03-31T00:00:00Z",
+    "eligibility": [
+      "Hispanic/Latino heritage",
+      "Minimum 3.0 GPA",
+      "Demonstrated community involvement"
+    ],
+    "description": "Celebrating Hispanic heritage and supporting educational advancement. Includes networking events and career guidance.",
+    "url": "https://example.org/hispanic-heritage"
+  },
+  {
+    "id": "scholarship-008",
+    "name": "Trade Skills Development Grant",
+    "provider": "Skilled Trades Alliance",
+    "amount": 3500,
+    "type": "Field-specific",
+    "deadline": "2026-04-15T00:00:00Z",
+    "eligibility": [
+      "Enrolled in vocational or trade program",
+      "Electrician, plumbing, HVAC, or welding focus",
+      "Tool purchase assistance available"
+    ],
+    "description": "Supporting students entering skilled trades. Funds can be used for tuition, tools, and certification exams.",
+    "url": "https://example.org/trade-skills"
+  },
+  {
+    "id": "scholarship-009",
+    "name": "Business Leaders of Tomorrow",
+    "provider": "Entrepreneurship Foundation",
+    "amount": 9000,
+    "type": "Merit",
+    "deadline": "2026-02-15T00:00:00Z",
+    "eligibility": [
+      "Business or entrepreneurship major",
+      "Minimum 3.5 GPA",
+      "Business plan submission required"
+    ],
+    "description": "For aspiring business leaders and entrepreneurs. Winners participate in summer accelerator program with industry mentors.",
+    "url": "https://example.org/business-leaders"
+  },
+  {
+    "id": "scholarship-010",
+    "name": "Single Parent Education Grant",
+    "provider": "Family Support Foundation",
+    "amount": 5500,
+    "type": "Need-based",
+    "deadline": "2026-05-30T00:00:00Z",
+    "eligibility": [
+      "Single parent with dependent children",
+      "Enrolled at least half-time",
+      "Financial need demonstrated"
+    ],
+    "description": "Supporting single parents pursuing higher education. Includes childcare assistance and flexible disbursement schedule.",
+    "url": "https://example.org/single-parent"
+  },
+  {
+    "id": "scholarship-011",
+    "name": "Veterans Education Award",
+    "provider": "Military Family Foundation",
+    "amount": 8500,
+    "type": "Demographic",
+    "deadline": "2026-07-15T00:00:00Z",
+    "eligibility": [
+      "Veteran or active duty military",
+      "Honorable discharge (if separated)",
+      "Enrolled in degree program"
+    ],
+    "description": "Honoring those who served by supporting their educational goals. Can be combined with GI Bill benefits.",
+    "url": "https://example.org/veterans-education"
+  },
+  {
+    "id": "scholarship-012",
+    "name": "Environmental Science Scholarship",
+    "provider": "Green Future Initiative",
+    "amount": 7000,
+    "type": "Field-specific",
+    "deadline": "2026-03-01T00:00:00Z",
+    "eligibility": [
+      "Environmental science or sustainability major",
+      "Minimum 3.3 GPA",
+      "Research project proposal required"
+    ],
+    "description": "Supporting students dedicated to environmental conservation and sustainability. Includes summer research opportunities.",
+    "url": "https://example.org/environmental-science"
+  },
+  {
+    "id": "scholarship-013",
+    "name": "Academic Excellence Award",
+    "provider": "National Scholars Fund",
+    "amount": 15000,
+    "type": "Merit",
+    "deadline": "2026-01-15T00:00:00Z",
+    "eligibility": [
+      "Minimum 3.8 GPA",
+      "SAT 1400+ or ACT 32+",
+      "Leadership experience demonstrated"
+    ],
+    "description": "Prestigious scholarship for top academic performers. Renewable for up to 4 years with maintained 3.5 GPA.",
+    "url": "https://example.org/academic-excellence"
+  },
+  {
+    "id": "scholarship-014",
+    "name": "Rural Community Scholarship",
+    "provider": "Rural Education Initiative",
+    "amount": 4500,
+    "type": "Demographic",
+    "deadline": "2026-04-01T00:00:00Z",
+    "eligibility": [
+      "From rural community (population <50,000)",
+      "First generation college student preferred",
+      "Minimum 3.0 GPA"
+    ],
+    "description": "Supporting students from rural communities in accessing higher education. Includes transition support and mentorship.",
+    "url": "https://example.org/rural-community"
+  },
+  {
+    "id": "scholarship-015",
+    "name": "Engineering Innovation Grant",
+    "provider": "Engineering Society",
+    "amount": 11000,
+    "type": "Field-specific",
+    "deadline": "2026-02-28T00:00:00Z",
+    "eligibility": [
+      "Engineering major (any discipline)",
+      "Minimum 3.4 GPA",
+      "Innovation project proposal required"
+    ],
+    "description": "For creative engineering students with innovative ideas. Winners receive project funding and industry mentorship.",
+    "url": "https://example.org/engineering-innovation"
+  }
+]
