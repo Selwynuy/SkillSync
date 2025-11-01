@@ -51,6 +51,7 @@ GEMINI_SETUP.md
 SUPABASE_EMAIL_SETUP.md
 SUPABASE_SETUP_SUMMARY.md
 SUPABASE_TESTING_GUIDE.md
+FEATURES_TESTING_GUIDE.md
 email-templates.md
 
 # SQL migration files (keep local, don't commit)

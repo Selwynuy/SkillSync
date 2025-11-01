@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { College } from "@/lib/types";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -149,6 +150,24 @@ export default function CollegesPage() {
     minAcceptanceRate ||
     maxAcceptanceRate ||
     programSearch.trim();
+
+  // Generate consistent college image URL using Unsplash
+  function getCollegeImageUrl(collegeId: string, index: number): string {
+    // Use different college/campus themed images
+    const imageIds = [
+      "vasily-koloda-8CqDvPuo_kI", // University campus
+      "element5-digital-OyCl7Y4y0Bk", // Students studying
+      "md-duran-rE9vgD_TXgM", // College building
+      "dom-fou-YRMWVcdyhmI", // Campus architecture
+      "priscilla-du-preez-W3SEyZODn8U", // University hall
+      "neonbrand-zFSo6bnZJTw", // Modern campus
+      "kyle-gregory-devaras-6RTM8EsD1T8", // University library
+      "banti-dey-y1W27qqoHE0", // College students
+    ];
+
+    const imageId = imageIds[index % imageIds.length];
+    return `https://images.unsplash.com/${imageId}?w=400&h=240&fit=crop`;
+  }
 
   if (loading) {
     return (
@@ -352,8 +371,17 @@ export default function CollegesPage() {
       )}
 
       <div className="grid gap-4 md:grid-cols-2">
-        {filteredColleges.map((college) => (
-          <Card key={college.id} className="hover:shadow-lg transition-shadow">
+        {filteredColleges.map((college, index) => (
+          <Card key={college.id} className="hover:shadow-lg transition-shadow overflow-hidden">
+            <div className="relative w-full h-48">
+              <Image
+                src={getCollegeImageUrl(college.id, index)}
+                alt={`${college.name} campus`}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="flex-1">

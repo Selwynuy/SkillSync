@@ -2,6 +2,7 @@ import { Navbar } from "./(marketing)/components/Navbar"
 import { Hero } from "./(marketing)/components/Hero"
 import { TutorialSteps } from "./(marketing)/components/TutorialSteps"
 import { JobPathsGrid } from "./(marketing)/components/JobPathsGrid"
+import { Pricing } from "./(marketing)/components/Pricing"
 import { Footer } from "./(marketing)/components/Footer"
 import { SkipToContent } from "@/components/common/skip-to-content"
 
@@ -14,6 +15,7 @@ export default function Home() {
         <Hero />
         <TutorialSteps />
         <JobPathsGrid />
+        <Pricing />
       </main>
       <Footer />
     </div>

@@ -2,14 +2,17 @@
 // Recommendations Service
 // ============================================================================
 
-import type { JobPath, Recommendation, SavedJobPath } from "@/lib/types";
+import type { JobPath, Recommendation, SavedJobPath, UserGrades } from "@/lib/types";
 import { getTopRecommendations, identifyDrivers } from "./similarity";
 import { getAllJobPaths } from "@/lib/repositories/jobPaths";
 import { getLatestAttempt } from "@/lib/assessment/storage";
 import { generateRationale } from "./rationale";
+import { getUserGrades } from "@/lib/repositories/grades";
+import { calculateGradeBoost } from "./grade-analysis";
 
 /**
  * Generate recommendations for a user based on their latest assessment.
+ * Optionally incorporates academic grades if available and user has consented.
  *
  * @param userId - User ID to generate recommendations for
  * @param topN - Number of recommendations to return (default: 5)
@@ -26,25 +29,46 @@ export async function generateRecommendationsForUser(
     throw new Error("No completed assessment found for user");
   }
 
+  // Get user's academic grades (optional)
+  const userGrades = await getUserGrades(userId);
+
   // Get all job paths
   const jobPaths = await getAllJobPaths();
 
-  // Compute top N recommendations
-  const topMatches = getTopRecommendations(
+  // Compute base similarity scores
+  const baseMatches = getTopRecommendations(
     latestAttempt.traitVector,
     jobPaths,
-    topN
+    topN * 2 // Get more candidates to re-rank with grade boost
   );
+
+  // Apply grade boosts and re-rank
+  const boostedMatches = baseMatches
+    .map(({ jobPath, score }) => {
+      const gradeBoost = calculateGradeBoost(userGrades, jobPath);
+      const boostedScore = Math.min(score + gradeBoost, 1.0); // Cap at 1.0
+
+      return {
+        jobPath,
+        baseScore: score,
+        gradeBoost,
+        score: boostedScore,
+      };
+    })
+    .sort((a, b) => b.score - a.score) // Re-sort by boosted score
+    .slice(0, topN); // Take top N after re-ranking
 
   // Build full recommendation objects with drivers and rationales
   const recommendations: Recommendation[] = await Promise.all(
-    topMatches.map(async ({ jobPath, score }) => {
+    boostedMatches.map(async ({ jobPath, score, baseScore, gradeBoost }) => {
       const drivers = identifyDrivers(latestAttempt.traitVector, jobPath.vector);
       const rationale = await generateRationale(
         jobPath,
         drivers,
         score,
-        latestAttempt.traitSummary
+        latestAttempt.traitSummary,
+        userGrades, // Pass grades for enhanced rationale
+        gradeBoost
       );
 
       return {

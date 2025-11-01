@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge"
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden py-20 md:py-32" aria-label="Hero section">
+    <section className="relative overflow-hidden py-12 md:py-20" aria-label="Hero section">
       {/* Background gradient */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background" />
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Scholarship } from "@/lib/types";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -123,6 +124,24 @@ export default function ScholarshipsPage() {
 
   const hasActiveFilters =
     selectedType !== "all" || minAmount || deadlineFilter !== "all";
+
+  // Generate consistent scholarship image URL using Unsplash
+  function getScholarshipImageUrl(scholarshipId: string, index: number): string {
+    // Use different education/scholarship themed images
+    const imageIds = [
+      "vasily-koloda-8CqDvPuo_kI", // Graduation cap throw
+      "wes-hicks-4-EeTnaC1S4", // Students celebrating
+      "pang-yuhao-kd5cxwZOK4", // Graduation ceremony
+      "md-duran-1VqHRwxcCCw", // Open book
+      "green-chameleon-s9CC2SKySJM", // Study materials
+      "element5-digital-T9CXBZLUvic", // Students learning
+      "priscilla-du-preez-XkKCui44iM0", // Academic success
+      "kimberly-farmer-lUaaKCUANVI", // Library study
+    ];
+
+    const imageId = imageIds[index % imageIds.length];
+    return `https://images.unsplash.com/${imageId}?w=800&h=240&fit=crop`;
+  }
 
   function isDeadlineSoon(deadline: Date): boolean {
     const now = new Date();
@@ -266,12 +285,21 @@ export default function ScholarshipsPage() {
       )}
 
       <div className="grid gap-4">
-        {filteredScholarships.map((scholarship) => {
+        {filteredScholarships.map((scholarship, index) => {
           const deadlineSoon = isDeadlineSoon(scholarship.deadline);
           const deadlinePassed = isDeadlinePassed(scholarship.deadline);
 
           return (
-            <Card key={scholarship.id} className={`hover:shadow-lg transition-shadow ${deadlinePassed ? 'opacity-60' : ''}`}>
+            <Card key={scholarship.id} className={`hover:shadow-lg transition-shadow overflow-hidden ${deadlinePassed ? 'opacity-60' : ''}`}>
+              <div className="relative w-full h-48">
+                <Image
+                  src={getScholarshipImageUrl(scholarship.id, index)}
+                  alt={`${scholarship.name} scholarship`}
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                />
+              </div>
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">

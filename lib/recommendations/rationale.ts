@@ -2,8 +2,9 @@
 // Rationale Generator (Deterministic + Gemini LLM)
 // ============================================================================
 
-import type { JobPath } from "@/lib/types";
+import type { JobPath, UserGrades } from "@/lib/types";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getGradeSummary, explainGradeInfluence } from "./grade-analysis";
 
 /**
  * Generate a human-readable rationale for why a job path matches a user.
@@ -17,27 +18,52 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
  * @param drivers - Key traits that drive the match
  * @param score - Similarity score (0-1)
  * @param traitSummary - User's trait scores for context
+ * @param userGrades - Optional user academic grades
+ * @param gradeBoost - Optional boost applied from grades (0-0.15)
  * @returns A human-readable explanation of the match
  */
 export async function generateRationale(
   jobPath: JobPath,
   drivers: string[],
   score: number,
-  traitSummary: Record<string, number>
+  traitSummary: Record<string, number>,
+  userGrades?: UserGrades | null,
+  gradeBoost?: number
 ): Promise<string> {
   // Check if Gemini API is available
   if (process.env.GEMINI_API_KEY) {
     try {
-      return await generateLLMRationale(jobPath, drivers, score, traitSummary);
+      return await generateLLMRationale(
+        jobPath,
+        drivers,
+        score,
+        traitSummary,
+        userGrades,
+        gradeBoost
+      );
     } catch (error) {
       console.error("Error generating LLM rationale, falling back to deterministic:", error);
       // Fall back to deterministic on error
-      return generateDeterministicRationale(jobPath, drivers, score, traitSummary);
+      return generateDeterministicRationale(
+        jobPath,
+        drivers,
+        score,
+        traitSummary,
+        userGrades,
+        gradeBoost
+      );
     }
   }
 
   // Fallback to deterministic stub
-  return generateDeterministicRationale(jobPath, drivers, score, traitSummary);
+  return generateDeterministicRationale(
+    jobPath,
+    drivers,
+    score,
+    traitSummary,
+    userGrades,
+    gradeBoost
+  );
 }
 
 /**
@@ -50,7 +76,9 @@ function generateDeterministicRationale(
   jobPath: JobPath,
   drivers: string[],
   score: number,
-  traitSummary: Record<string, number>
+  traitSummary: Record<string, number>,
+  userGrades?: UserGrades | null,
+  gradeBoost?: number
 ): string {
   const matchQuality = getMatchQuality(score);
   const driversText = drivers.length > 0 ? drivers.join(", ") : "your profile";
@@ -61,6 +89,14 @@ function generateDeterministicRationale(
   // Add driver-specific context
   if (drivers.length > 0) {
     rationale += `Your ${driversText} strengths align well with what this career requires. `;
+  }
+
+  // Add grade influence if applicable
+  if (userGrades && gradeBoost && gradeBoost > 0.01) {
+    const gradeInfluence = explainGradeInfluence(userGrades, jobPath, gradeBoost);
+    if (gradeInfluence) {
+      rationale += `Additionally, ${gradeInfluence}. `;
+    }
   }
 
   // Add job-specific details
@@ -181,7 +217,9 @@ async function generateLLMRationale(
   jobPath: JobPath,
   drivers: string[],
   score: number,
-  traitSummary: Record<string, number>
+  traitSummary: Record<string, number>,
+  userGrades?: UserGrades | null,
+  gradeBoost?: number
 ): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY;
 
@@ -202,7 +240,14 @@ async function generateLLMRationale(
     .map(([trait, score]) => `${trait}: ${score.toFixed(2)}`)
     .join(", ");
 
-  const prompt = `You are a friendly career advisor helping someone understand why a career matches their personality and skills.
+  // Get grade summary if available
+  const gradeSummary = getGradeSummary(userGrades ?? null);
+  const gradeInfluence = userGrades && gradeBoost
+    ? explainGradeInfluence(userGrades, jobPath, gradeBoost)
+    : null;
+
+  // Build prompt with optional grade information
+  let prompt = `You are a friendly career advisor helping someone understand why a career matches their personality and skills.
 
 Career Details:
 - Title: ${jobPath.title}
@@ -215,14 +260,41 @@ Career Details:
 Match Analysis:
 - Match Score: ${(score * 100).toFixed(1)}% (${score.toFixed(3)} on 0-1 scale)
 - Key Trait Drivers: ${drivers.join(", ")}
-- User's Top Traits: ${topTraits}
+- User's Top Traits: ${topTraits}`;
+
+  // Add grade information if available
+  if (gradeSummary) {
+    prompt += `
+
+Academic Background:
+- ${gradeSummary}`;
+
+    if (gradeInfluence) {
+      prompt += `
+- Grade Alignment: ${gradeInfluence}`;
+    }
+
+    if (gradeBoost && gradeBoost > 0.01) {
+      prompt += `
+- Academic Boost to Match: +${(gradeBoost * 100).toFixed(1)}% (grades enhanced this recommendation)`;
+    }
+  }
+
+  prompt += `
 
 Task: Write a brief, friendly, and natural explanation (2-3 sentences, max 150 words) for why this career is a good fit for this person. Focus on:
 1. How their key strengths (${drivers.slice(0, 3).join(", ")}) align with the role
-2. What makes this career exciting based on their personality
-3. One practical benefit (salary, growth, or education fit)
+2. What makes this career exciting based on their personality`;
 
-Be conversational and encouraging, not robotic. Avoid phrases like "based on your traits" or "according to the data." Write like you're talking to a friend about their career options.`;
+  if (gradeSummary) {
+    prompt += `
+3. How their academic background supports this career choice`;
+  }
+
+  prompt += `
+${gradeSummary ? "4" : "3"}. One practical benefit (salary, growth, or education fit)
+
+Be conversational and encouraging, not robotic. Avoid phrases like "based on your traits" or "according to the data." Write like you're talking to a friend about their career options.${gradeSummary ? " If grades are mentioned, naturally weave them into the explanation without making it sound forced." : ""}`;
 
   const result = await model.generateContent(prompt);
   const response = result.response;
