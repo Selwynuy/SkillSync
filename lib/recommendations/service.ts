@@ -37,10 +37,10 @@ export async function generateRecommendationsForUser(
   );
 
   // Build full recommendation objects with drivers and rationales
-  const recommendations: Recommendation[] = topMatches.map(
-    ({ jobPath, score }) => {
+  const recommendations: Recommendation[] = await Promise.all(
+    topMatches.map(async ({ jobPath, score }) => {
       const drivers = identifyDrivers(latestAttempt.traitVector, jobPath.vector);
-      const rationale = generateRationale(
+      const rationale = await generateRationale(
         jobPath,
         drivers,
         score,
@@ -53,7 +53,7 @@ export async function generateRecommendationsForUser(
         drivers,
         rationale,
       };
-    }
+    })
   );
 
   return recommendations;
@@ -76,10 +76,10 @@ export async function generateRecommendationsFromVector(
   const jobPaths = await getAllJobPaths();
   const topMatches = getTopRecommendations(traitVector, jobPaths, topN);
 
-  const recommendations: Recommendation[] = topMatches.map(
-    ({ jobPath, score }) => {
+  const recommendations: Recommendation[] = await Promise.all(
+    topMatches.map(async ({ jobPath, score }) => {
       const drivers = identifyDrivers(traitVector, jobPath.vector);
-      const rationale = generateRationale(
+      const rationale = await generateRationale(
         jobPath,
         drivers,
         score,
@@ -92,7 +92,7 @@ export async function generateRecommendationsFromVector(
         drivers,
         rationale,
       };
-    }
+    })
   );
 
   return recommendations;

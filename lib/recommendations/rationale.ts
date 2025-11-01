@@ -1,17 +1,17 @@
 // ============================================================================
-// Rationale Generator (Deterministic Stub + Optional LLM)
+// Rationale Generator (Deterministic + Gemini LLM)
 // ============================================================================
 
 import type { JobPath } from "@/lib/types";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 /**
  * Generate a human-readable rationale for why a job path matches a user.
  *
- * This function provides a deterministic stub implementation that creates
- * structured explanations based on match score and key drivers.
+ * This function can use either a deterministic approach or integrate with
+ * Google's Gemini API for more natural, personalized explanations.
  *
- * In production, you can optionally integrate an LLM by setting the
- * OPENAI_API_KEY environment variable.
+ * Set GEMINI_API_KEY environment variable to enable LLM-based rationales.
  *
  * @param jobPath - The job path being recommended
  * @param drivers - Key traits that drive the match
@@ -19,17 +19,21 @@ import type { JobPath } from "@/lib/types";
  * @param traitSummary - User's trait scores for context
  * @returns A human-readable explanation of the match
  */
-export function generateRationale(
+export async function generateRationale(
   jobPath: JobPath,
   drivers: string[],
   score: number,
   traitSummary: Record<string, number>
-): string {
-  // Check if LLM integration is available
-  if (process.env.OPENAI_API_KEY && process.env.USE_LLM_RATIONALE === "true") {
-    // Placeholder for LLM integration
-    // In a real implementation, you would call the OpenAI API here
-    return generateLLMRationale(jobPath, drivers, score, traitSummary);
+): Promise<string> {
+  // Check if Gemini API is available
+  if (process.env.GEMINI_API_KEY) {
+    try {
+      return await generateLLMRationale(jobPath, drivers, score, traitSummary);
+    } catch (error) {
+      console.error("Error generating LLM rationale, falling back to deterministic:", error);
+      // Fall back to deterministic on error
+      return generateDeterministicRationale(jobPath, drivers, score, traitSummary);
+    }
   }
 
   // Fallback to deterministic stub
@@ -169,42 +173,62 @@ function generateTraitInsights(
 }
 
 /**
- * LLM-based rationale generator (stub implementation).
+ * LLM-based rationale generator using Google Gemini.
  *
- * In production, this would make an API call to OpenAI or another LLM service.
- * For now, it falls back to the deterministic approach.
+ * Generates natural, personalized career match explanations using AI.
  */
-function generateLLMRationale(
+async function generateLLMRationale(
   jobPath: JobPath,
   drivers: string[],
   score: number,
   traitSummary: Record<string, number>
-): string {
-  // TODO: Implement LLM integration
-  // Example implementation:
-  // const response = await openai.chat.completions.create({
-  //   model: "gpt-4",
-  //   messages: [
-  //     {
-  //       role: "system",
-  //       content: "You are a career advisor explaining why a job matches someone's traits."
-  //     },
-  //     {
-  //       role: "user",
-  //       content: `Generate a brief, friendly explanation for why ${jobPath.title} ` +
-  //         `(match score: ${score.toFixed(2)}) is a good fit for someone with ` +
-  //         `these key traits: ${drivers.join(", ")}. Their trait scores: ` +
-  //         `${JSON.stringify(traitSummary)}. Keep it under 150 words.`
-  //     }
-  //   ],
-  //   temperature: 0.7,
-  //   max_tokens: 200
-  // });
-  // return response.choices[0].message.content || "";
+): Promise<string> {
+  const apiKey = process.env.GEMINI_API_KEY;
 
-  // For now, fall back to deterministic approach
-  console.warn("LLM integration not yet implemented, using deterministic rationale");
-  return generateDeterministicRationale(jobPath, drivers, score, traitSummary);
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY not configured");
+  }
+
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+  // Format salary range
+  const salaryText = formatSalaryRange(jobPath.salaryRange);
+
+  // Format trait summary for better readability
+  const topTraits = Object.entries(traitSummary)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 5)
+    .map(([trait, score]) => `${trait}: ${score.toFixed(2)}`)
+    .join(", ");
+
+  const prompt = `You are a friendly career advisor helping someone understand why a career matches their personality and skills.
+
+Career Details:
+- Title: ${jobPath.title}
+- Description: ${jobPath.description}
+- Salary Range: ${salaryText}
+- Education Required: ${jobPath.educationLevel}
+- Job Market Growth Rate: ${jobPath.growthRate}%
+- Key Tags: ${jobPath.tags.join(", ")}
+
+Match Analysis:
+- Match Score: ${(score * 100).toFixed(1)}% (${score.toFixed(3)} on 0-1 scale)
+- Key Trait Drivers: ${drivers.join(", ")}
+- User's Top Traits: ${topTraits}
+
+Task: Write a brief, friendly, and natural explanation (2-3 sentences, max 150 words) for why this career is a good fit for this person. Focus on:
+1. How their key strengths (${drivers.slice(0, 3).join(", ")}) align with the role
+2. What makes this career exciting based on their personality
+3. One practical benefit (salary, growth, or education fit)
+
+Be conversational and encouraging, not robotic. Avoid phrases like "based on your traits" or "according to the data." Write like you're talking to a friend about their career options.`;
+
+  const result = await model.generateContent(prompt);
+  const response = result.response;
+  const text = response.text();
+
+  return text.trim();
 }
 
 /**
@@ -219,9 +243,10 @@ export async function generateRationaleBatch(
     traitSummary: Record<string, number>;
   }>
 ): Promise<string[]> {
-  // For deterministic approach, generate individually
-  // For LLM approach, could batch API calls for efficiency
-  return recommendations.map((rec) =>
-    generateRationale(rec.jobPath, rec.drivers, rec.score, rec.traitSummary)
+  // Generate all rationales concurrently for better performance
+  return Promise.all(
+    recommendations.map((rec) =>
+      generateRationale(rec.jobPath, rec.drivers, rec.score, rec.traitSummary)
+    )
   );
 }
