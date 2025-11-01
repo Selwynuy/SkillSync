@@ -1,8 +1,12 @@
 import { UserMilestones, Milestone } from "@/lib/types";
+import { supabaseAdmin } from "@/lib/supabase/server";
 
-// In-memory storage for user milestones (MVP)
-// In production, this would be a database
-const userMilestones: Map<string, UserMilestones> = new Map();
+/**
+ * Milestones Storage with Supabase
+ *
+ * This module handles storage of user milestones for career paths
+ * Uses Supabase for persistent storage
+ */
 
 /**
  * Get all milestones for a user across all job paths.
@@ -13,9 +17,28 @@ const userMilestones: Map<string, UserMilestones> = new Map();
 export async function getUserMilestones(
   userId: string
 ): Promise<UserMilestones[]> {
-  return Array.from(userMilestones.values())
-    .filter((um) => um.userId === userId)
-    .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("user_milestones")
+      .select("*")
+      .eq("user_id", userId)
+      .order("updated_at", { ascending: false });
+
+    if (error || !data) {
+      return [];
+    }
+
+    return data.map((row) => ({
+      id: row.id,
+      userId: row.user_id,
+      jobPathId: row.job_path_id,
+      milestones: row.milestones || [],
+      updatedAt: new Date(row.updated_at),
+    }));
+  } catch (error) {
+    console.error("Error getting user milestones:", error);
+    return [];
+  }
 }
 
 /**
@@ -29,8 +52,29 @@ export async function getMilestonesByJobPath(
   userId: string,
   jobPathId: string
 ): Promise<UserMilestones | null> {
-  const key = `${userId}-${jobPathId}`;
-  return userMilestones.get(key) || null;
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("user_milestones")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("job_path_id", jobPathId)
+      .single();
+
+    if (error || !data) {
+      return null;
+    }
+
+    return {
+      id: data.id,
+      userId: data.user_id,
+      jobPathId: data.job_path_id,
+      milestones: data.milestones || [],
+      updatedAt: new Date(data.updated_at),
+    };
+  } catch (error) {
+    console.error("Error getting milestones by job path:", error);
+    return null;
+  }
 }
 
 /**
@@ -46,19 +90,69 @@ export async function saveMilestones(
   jobPathId: string,
   milestones: Milestone[]
 ): Promise<UserMilestones> {
-  const key = `${userId}-${jobPathId}`;
-  const existing = userMilestones.get(key);
+  try {
+    // Validate milestones before saving
+    const validationError = validateMilestones(milestones);
+    if (validationError) {
+      throw new Error(validationError);
+    }
 
-  const userMilestonesRecord: UserMilestones = {
-    id: existing?.id || `um-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-    userId,
-    jobPathId,
-    milestones,
-    updatedAt: new Date(),
-  };
+    // Check if record already exists
+    const existing = await getMilestonesByJobPath(userId, jobPathId);
 
-  userMilestones.set(key, userMilestonesRecord);
-  return userMilestonesRecord;
+    if (existing) {
+      // Update existing record
+      const { data, error } = await supabaseAdmin
+        .from("user_milestones")
+        .update({
+          milestones: milestones as any,
+        })
+        .eq("user_id", userId)
+        .eq("job_path_id", jobPathId)
+        .select("*")
+        .single();
+
+      if (error || !data) {
+        console.error("Error updating milestones:", error);
+        throw new Error("Failed to update milestones");
+      }
+
+      return {
+        id: data.id,
+        userId: data.user_id,
+        jobPathId: data.job_path_id,
+        milestones: data.milestones || [],
+        updatedAt: new Date(data.updated_at),
+      };
+    } else {
+      // Insert new record
+      const { data, error } = await supabaseAdmin
+        .from("user_milestones")
+        .insert({
+          user_id: userId,
+          job_path_id: jobPathId,
+          milestones: milestones as any,
+        })
+        .select("*")
+        .single();
+
+      if (error || !data) {
+        console.error("Error inserting milestones:", error);
+        throw new Error("Failed to save milestones");
+      }
+
+      return {
+        id: data.id,
+        userId: data.user_id,
+        jobPathId: data.job_path_id,
+        milestones: data.milestones || [],
+        updatedAt: new Date(data.updated_at),
+      };
+    }
+  } catch (error) {
+    console.error("Error saving milestones:", error);
+    throw error;
+  }
 }
 
 /**
@@ -72,8 +166,23 @@ export async function deleteMilestones(
   userId: string,
   jobPathId: string
 ): Promise<boolean> {
-  const key = `${userId}-${jobPathId}`;
-  return userMilestones.delete(key);
+  try {
+    const { error } = await supabaseAdmin
+      .from("user_milestones")
+      .delete()
+      .eq("user_id", userId)
+      .eq("job_path_id", jobPathId);
+
+    if (error) {
+      console.error("Error deleting milestones:", error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error deleting milestones:", error);
+    return false;
+  }
 }
 
 /**
@@ -158,14 +267,21 @@ export function validateMilestones(milestones: any): string | null {
  * @returns Number of milestone records deleted
  */
 export async function deleteUserMilestones(userId: string): Promise<number> {
-  let deletedCount = 0;
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("user_milestones")
+      .delete()
+      .eq("user_id", userId)
+      .select("id");
 
-  for (const [key, um] of userMilestones.entries()) {
-    if (um.userId === userId) {
-      userMilestones.delete(key);
-      deletedCount++;
+    if (error) {
+      console.error("Error deleting user milestones:", error);
+      return 0;
     }
-  }
 
-  return deletedCount;
+    return data?.length || 0;
+  } catch (error) {
+    console.error("Error deleting user milestones:", error);
+    return 0;
+  }
 }

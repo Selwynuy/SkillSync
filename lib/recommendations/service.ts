@@ -99,10 +99,10 @@ export async function generateRecommendationsFromVector(
 }
 
 // ============================================================================
-// Saved Job Paths Storage (In-Memory MVP)
+// Saved Job Paths Storage (Supabase)
 // ============================================================================
 
-const savedPaths: Map<string, SavedJobPath> = new Map();
+import { supabaseAdmin } from "@/lib/supabase/server";
 
 /**
  * Save a job path for a user.
@@ -115,23 +115,49 @@ export async function saveJobPath(
   userId: string,
   jobPathId: string
 ): Promise<SavedJobPath> {
-  const key = `${userId}-${jobPathId}`;
+  try {
+    // Check if already saved (unique constraint will prevent duplicates)
+    const { data: existing } = await supabaseAdmin
+      .from("saved_job_paths")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("job_path_id", jobPathId)
+      .single();
 
-  // Check if already saved
-  const existing = savedPaths.get(key);
-  if (existing) {
-    return existing;
+    if (existing) {
+      return {
+        id: existing.id,
+        userId: existing.user_id,
+        jobPathId: existing.job_path_id,
+        savedAt: new Date(existing.saved_at),
+      };
+    }
+
+    // Insert new saved path
+    const { data, error } = await supabaseAdmin
+      .from("saved_job_paths")
+      .insert({
+        user_id: userId,
+        job_path_id: jobPathId,
+      })
+      .select("*")
+      .single();
+
+    if (error || !data) {
+      console.error("Error saving job path:", error);
+      throw new Error("Failed to save job path");
+    }
+
+    return {
+      id: data.id,
+      userId: data.user_id,
+      jobPathId: data.job_path_id,
+      savedAt: new Date(data.saved_at),
+    };
+  } catch (error) {
+    console.error("Error saving job path:", error);
+    throw error;
   }
-
-  const savedPath: SavedJobPath = {
-    id: `saved-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-    userId,
-    jobPathId,
-    savedAt: new Date(),
-  };
-
-  savedPaths.set(key, savedPath);
-  return savedPath;
 }
 
 /**
@@ -145,8 +171,23 @@ export async function unsaveJobPath(
   userId: string,
   jobPathId: string
 ): Promise<boolean> {
-  const key = `${userId}-${jobPathId}`;
-  return savedPaths.delete(key);
+  try {
+    const { error } = await supabaseAdmin
+      .from("saved_job_paths")
+      .delete()
+      .eq("user_id", userId)
+      .eq("job_path_id", jobPathId);
+
+    if (error) {
+      console.error("Error unsaving job path:", error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error unsaving job path:", error);
+    return false;
+  }
 }
 
 /**
@@ -160,8 +201,18 @@ export async function isJobPathSaved(
   userId: string,
   jobPathId: string
 ): Promise<boolean> {
-  const key = `${userId}-${jobPathId}`;
-  return savedPaths.has(key);
+  try {
+    const { data } = await supabaseAdmin
+      .from("saved_job_paths")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("job_path_id", jobPathId)
+      .single();
+
+    return !!data;
+  } catch (error) {
+    return false;
+  }
 }
 
 /**
@@ -173,9 +224,27 @@ export async function isJobPathSaved(
 export async function getSavedJobPaths(
   userId: string
 ): Promise<SavedJobPath[]> {
-  return Array.from(savedPaths.values())
-    .filter((saved) => saved.userId === userId)
-    .sort((a, b) => b.savedAt.getTime() - a.savedAt.getTime());
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("saved_job_paths")
+      .select("*")
+      .eq("user_id", userId)
+      .order("saved_at", { ascending: false });
+
+    if (error || !data) {
+      return [];
+    }
+
+    return data.map((row) => ({
+      id: row.id,
+      userId: row.user_id,
+      jobPathId: row.job_path_id,
+      savedAt: new Date(row.saved_at),
+    }));
+  } catch (error) {
+    console.error("Error getting saved job paths:", error);
+    return [];
+  }
 }
 
 /**
@@ -206,14 +275,21 @@ export async function getSavedJobPathsWithDetails(
  * @returns Number of saved paths deleted
  */
 export async function deleteUserSavedPaths(userId: string): Promise<number> {
-  let deletedCount = 0;
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("saved_job_paths")
+      .delete()
+      .eq("user_id", userId)
+      .select("id");
 
-  for (const [key, savedPath] of savedPaths.entries()) {
-    if (savedPath.userId === userId) {
-      savedPaths.delete(key);
-      deletedCount++;
+    if (error) {
+      console.error("Error deleting saved paths:", error);
+      return 0;
     }
-  }
 
-  return deletedCount;
+    return data?.length || 0;
+  } catch (error) {
+    console.error("Error deleting saved paths:", error);
+    return 0;
+  }
 }

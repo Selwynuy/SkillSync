@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/common/theme-toggle"
 import { Menu } from "lucide-react"
@@ -28,9 +29,14 @@ export function Navbar() {
       <div className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2" aria-label="SkillSync home">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-lg">
-            S
-          </div>
+          <Image
+            src="/logo.png"
+            alt="SkillSync Logo"
+            width={32}
+            height={32}
+            className="h-8 w-8 object-cover"
+            priority
+          />
           <span className="text-xl font-bold">SkillSync</span>
         </Link>
 

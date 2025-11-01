@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -56,9 +57,13 @@ export function Footer() {
         <div className="mt-12 border-t pt-8">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex items-center space-x-2">
-              <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold text-sm">
-                S
-              </div>
+              <Image
+                src="/logo.png"
+                alt="SkillSync Logo"
+                width={24}
+                height={24}
+                className="h-6 w-6 object-cover"
+              />
               <span className="text-sm font-semibold">SkillSync</span>
             </div>
 
