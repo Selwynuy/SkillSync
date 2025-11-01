@@ -91,15 +91,7 @@ function SignInForm() {
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="/auth/reset"
-                    className="text-sm text-muted-foreground hover:text-primary"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -113,15 +105,6 @@ function SignInForm() {
                     disabled={isLoading}
                   />
                 </div>
-              </div>
-
-              <div className="rounded-lg bg-muted p-3 text-sm">
-                <p className="font-medium mb-1">Demo Credentials:</p>
-                <p className="text-muted-foreground">
-                  Email: demo@skillsync.com
-                  <br />
-                  Password: demo123
-                </p>
               </div>
             </CardContent>
 
