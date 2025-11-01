@@ -4,14 +4,18 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/common/theme-toggle"
 import { Menu } from "lucide-react"
+import { useSession, signOut } from "next-auth/react"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 
 export function Navbar() {
+  const { data: session } = useSession()
+
   const navItems = [
     { href: "/assessments", label: "Take Assessment" },
     { href: "/market", label: "Job Market" },
@@ -48,12 +52,25 @@ export function Navbar() {
           <ThemeToggle />
 
           <div className="hidden md:flex md:gap-2">
-            <Button variant="ghost" asChild>
-              <Link href="/auth/signin">Sign In</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/auth/signup">Get Started</Link>
-            </Button>
+            {session ? (
+              <>
+                <Button variant="ghost" asChild>
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
+                <Button variant="ghost" onClick={() => signOut()}>
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" asChild>
+                  <Link href="/auth/signin">Sign In</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/auth/signup">Get Started</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu */}
@@ -73,16 +90,32 @@ export function Navbar() {
                     </Link>
                   </DropdownMenuItem>
                 ))}
-                <DropdownMenuItem asChild>
-                  <Link href="/auth/signin" className="w-full">
-                    Sign In
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/auth/signup" className="w-full">
-                    Get Started
-                  </Link>
-                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                {session ? (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard" className="w-full">
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => signOut()}>
+                      Sign Out
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link href="/auth/signin" className="w-full">
+                        Sign In
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/auth/signup" className="w-full">
+                        Get Started
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
