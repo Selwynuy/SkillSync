@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { AssessmentAttempt, JobPath } from "@/lib/types";
+import { AssessmentAttempt, JobPath, UserGrades } from "@/lib/types";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MilestonesEditor } from "@/components/common/MilestonesEditor";
+import { GradesSection } from "@/components/dashboard/GradesSection";
 import type { Milestone } from "@/lib/types";
 import { Navbar } from "@/app/(marketing)/components/Navbar";
 import { Footer } from "@/app/(marketing)/components/Footer";
@@ -33,6 +34,7 @@ export default function DashboardPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedJobPathId, setSelectedJobPathId] = useState<string>("");
   const [milestones, setMilestones] = useState<Record<string, Milestone[]>>({});
+  const [grades, setGrades] = useState<UserGrades | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -44,6 +46,7 @@ export default function DashboardPage() {
       fetchAttempts();
       fetchSavedPaths();
       fetchMilestones();
+      fetchGrades();
     }
   }, [status, router]);
 
@@ -150,6 +153,27 @@ export default function DashboardPage() {
 
     // Update local state
     setMilestones({ ...milestones, [jobPathId]: milestonesData });
+  }
+
+  async function fetchGrades() {
+    try {
+      const response = await fetch("/api/grades");
+
+      if (!response.ok) {
+        // If 404 or other errors, just use null
+        return;
+      }
+
+      const data = await response.json();
+      setGrades(data.grades || null);
+    } catch (err) {
+      console.error("Error fetching grades:", err);
+      // Fail silently - grades are optional
+    }
+  }
+
+  function handleGradesUpdate(updatedGrades: UserGrades) {
+    setGrades(updatedGrades);
   }
 
   const selectedJobPath = savedPaths.find((p) => p.id === selectedJobPathId);
@@ -401,7 +425,7 @@ export default function DashboardPage() {
       </section>
 
       {/* Milestones Section */}
-      <section>
+      <section className="mb-12">
         <div className="mb-6">
           <h2 className="text-2xl font-semibold mb-1">Milestones</h2>
           <p className="text-sm text-muted-foreground">
@@ -462,6 +486,18 @@ export default function DashboardPage() {
             )}
           </div>
         )}
+      </section>
+
+      {/* Grades Section */}
+      <section>
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold mb-1">Academic Performance</h2>
+          <p className="text-sm text-muted-foreground">
+            Manage your academic grades for enhanced AI recommendations
+          </p>
+        </div>
+
+        <GradesSection initialGrades={grades} onUpdate={handleGradesUpdate} />
       </section>
         </div>
       </main>

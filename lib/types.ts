@@ -110,6 +110,27 @@ export interface User {
   id: string;
   email: string;
   name?: string;
+  emailVerified?: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface GradeLevel {
+  math?: number;
+  english?: number;
+  science?: number;
+  gpa?: number;
+}
+
+export interface UserGrades {
+  id: string;
+  userId: string;
+  grade7?: GradeLevel;
+  grade8?: GradeLevel;
+  grade9?: GradeLevel;
+  grade10?: GradeLevel;
+  additionalNotes?: string;
+  consentToUse: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

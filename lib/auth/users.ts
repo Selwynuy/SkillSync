@@ -31,6 +31,7 @@ export async function getUserByEmail(
       id: data.id,
       email: data.email,
       name: data.name || undefined,
+      emailVerified: data.email_verified || false,
       password: data.password_hash || "",
       createdAt: new Date(data.created_at),
       updatedAt: new Date(data.updated_at),
@@ -144,6 +145,92 @@ export async function deleteUser(userId: string): Promise<boolean> {
   } catch (error) {
     console.error("Error deleting user:", error);
     return false;
+  }
+}
+
+// ============================================================================
+// Email Verification Token Management
+// ============================================================================
+
+/**
+ * Generate a secure verification token
+ */
+function generateVerificationToken(): string {
+  const randomBytes = crypto.getRandomValues(new Uint8Array(32));
+  return Array.from(randomBytes, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * Create and store an email verification token for a user
+ * Returns the token that should be sent via email
+ */
+export async function createVerificationToken(userId: string): Promise<string | null> {
+  try {
+    const token = generateVerificationToken();
+    const expiresAt = new Date();
+    expiresAt.setHours(expiresAt.getHours() + 24); // Token expires in 24 hours
+
+    const { error } = await supabaseAdmin
+      .from("users")
+      .update({
+        verification_token: token,
+        verification_token_expires: expiresAt.toISOString(),
+      })
+      .eq("id", userId);
+
+    if (error) {
+      console.error("Error creating verification token:", error);
+      return null;
+    }
+
+    return token;
+  } catch (error) {
+    console.error("Error creating verification token:", error);
+    return null;
+  }
+}
+
+/**
+ * Verify an email verification token
+ * Returns the user ID if valid, null otherwise
+ */
+export async function verifyEmailToken(token: string): Promise<string | null> {
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("users")
+      .select("id, verification_token_expires")
+      .eq("verification_token", token)
+      .single();
+
+    if (error || !data) {
+      return null;
+    }
+
+    // Check if token has expired
+    const expiresAt = new Date(data.verification_token_expires);
+    if (expiresAt < new Date()) {
+      return null;
+    }
+
+    // Mark email as verified and clear the token
+    const { error: updateError } = await supabaseAdmin
+      .from("users")
+      .update({
+        email_verified: true,
+        verification_token: null,
+        verification_token_expires: null,
+      })
+      .eq("id", data.id);
+
+    if (updateError) {
+      console.error("Error marking email as verified:", updateError);
+      return null;
+    }
+
+    return data.id;
+  } catch (error) {
+    console.error("Error verifying email token:", error);
+    return null;
   }
 }
 

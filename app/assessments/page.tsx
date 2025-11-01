@@ -118,7 +118,7 @@ export default async function AssessmentsPage() {
 
           <CardFooter className="bg-muted/50">
             <Button size="lg" className="w-full sm:w-auto" asChild>
-              <Link href={`/assessments/new?assessmentId=${mainAssessment.id}`}>
+              <Link href={`/assessments/grades?assessmentId=${mainAssessment.id}`}>
                 Start Assessment
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>

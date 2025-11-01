@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, Suspense } from "react"
+import { useState, useEffect, Suspense } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { signIn } from "next-auth/react"
@@ -9,17 +9,38 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { toast } from "sonner"
-import { Mail, Lock, ArrowRight } from "lucide-react"
+import { Mail, Lock, ArrowRight, CheckCircle2, AlertCircle } from "lucide-react"
 
 function SignInForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard"
+  const verified = searchParams.get("verified")
+  const error = searchParams.get("error")
 
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+
+  useEffect(() => {
+    // Show verification messages
+    if (verified === "true") {
+      toast.success("Email verified successfully! You can now sign in.", { duration: 5000 })
+    } else if (verified === "false") {
+      toast.info("Please check your email to verify your account before signing in.", { duration: 5000 })
+    }
+
+    // Show error messages
+    if (error === "invalid_token") {
+      toast.error("Invalid verification link. Please try signing up again.")
+    } else if (error === "expired_token") {
+      toast.error("Verification link has expired. Please contact support for a new link.")
+    } else if (error === "verification_failed") {
+      toast.error("Email verification failed. Please try again or contact support.")
+    }
+  }, [verified, error])
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -33,7 +54,12 @@ function SignInForm() {
       })
 
       if (result?.error) {
-        toast.error("Invalid email or password")
+        // Show specific error message if it's about email verification
+        if (result.error.includes("verify your email")) {
+          toast.error(result.error, { duration: 6000 })
+        } else {
+          toast.error("Invalid email or password")
+        }
       } else {
         toast.success("Signed in successfully!")
         router.push(callbackUrl)

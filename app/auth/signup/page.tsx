@@ -49,21 +49,15 @@ export default function SignUpPage() {
         return
       }
 
-      toast.success("Account created successfully!")
+      toast.success(
+        data.message || "Account created successfully! Please check your email to verify your account.",
+        { duration: 6000 }
+      )
 
-      // Auto sign in after signup
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      })
-
-      if (result?.error) {
-        router.push("/auth/signin")
-      } else {
-        router.push("/dashboard")
-        router.refresh()
-      }
+      // Redirect to sign in page after successful signup
+      setTimeout(() => {
+        router.push("/auth/signin?verified=false")
+      }, 2000)
     } catch (error) {
       toast.error("An error occurred. Please try again.")
     } finally {
