@@ -290,7 +290,7 @@ export default function ScholarshipsPage() {
           const deadlinePassed = isDeadlinePassed(scholarship.deadline);
 
           return (
-            <Card key={scholarship.id} className={`hover:shadow-lg transition-shadow overflow-hidden ${deadlinePassed ? 'opacity-60' : ''}`}>
+            <Card key={scholarship.id} className={`hover:shadow-lg transition-shadow overflow-hidden pt-0 ${deadlinePassed ? 'opacity-60' : ''}`}>
               <div className="relative w-full h-48">
                 <Image
                   src={getScholarshipImageUrl(scholarship.id, index)}

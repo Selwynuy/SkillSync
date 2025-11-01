@@ -4,6 +4,11 @@
 
 import type { JobPath, Recommendation } from "@/lib/types";
 
+// Generic type for any object with a vector property
+type Vectorizable = {
+  vector: number[];
+};
+
 /**
  * Compute cosine similarity between two vectors.
  * Returns a value between 0 and 1, where 1 means identical direction.
@@ -84,13 +89,20 @@ export function computeJobPathSimilarities(
  * @param topN - Number of top recommendations to return (default: 5)
  * @returns Top N job paths with scores
  */
-export function getTopRecommendations(
+export function getTopRecommendations<T extends Vectorizable>(
   userVector: number[],
-  jobPaths: JobPath[],
+  items: T[],
   topN: number = 5
-): Array<{ jobPath: JobPath; score: number }> {
-  const similarities = computeJobPathSimilarities(userVector, jobPaths);
-  return similarities.slice(0, topN);
+): Array<{ jobPath: T; score: number }> {
+  const results = items.map((item) => ({
+    jobPath: item,
+    score: cosineSimilarity(userVector, item.vector),
+  }));
+
+  // Sort by score descending (best matches first)
+  results.sort((a, b) => b.score - a.score);
+
+  return results.slice(0, topN);
 }
 
 /**

@@ -372,7 +372,7 @@ export default function CollegesPage() {
 
       <div className="grid gap-4 md:grid-cols-2">
         {filteredColleges.map((college, index) => (
-          <Card key={college.id} className="hover:shadow-lg transition-shadow overflow-hidden">
+          <Card key={college.id} className="hover:shadow-lg transition-shadow overflow-hidden pt-0">
             <div className="relative w-full h-48">
               <Image
                 src={getCollegeImageUrl(college.id, index)}

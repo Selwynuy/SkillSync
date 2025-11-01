@@ -1,0 +1,407 @@
+[
+  {
+    "id": "shs-stem",
+    "trackType": "Academic",
+    "strand": "STEM",
+    "title": "STEM - Science, Technology, Engineering, Mathematics",
+    "description": "Designed for students with strong interests and aptitude in science and mathematics. Prepares students for college programs in engineering, medicine, IT, and other science-related fields.",
+    "vector": [0.9, 0.85, 0.5, 0.7, 0.6, 0.75, 0.5, 0.8],
+    "tags": ["analytical", "mathematical", "problem-solving", "technical", "research"],
+    "recommendedGrades": {
+      "math": 85,
+      "science": 85,
+      "english": 75,
+      "gpa": 3.5
+    },
+    "careerPathways": [
+      "jp-001",
+      "jp-006",
+      "jp-002"
+    ],
+    "collegePrograms": [
+      "Computer Science",
+      "Engineering (Civil, Mechanical, Electrical)",
+      "Information Technology",
+      "Mathematics",
+      "Physics",
+      "Medicine",
+      "Nursing",
+      "Pharmacy",
+      "Architecture"
+    ],
+    "coreSubjects": [
+      "General Mathematics",
+      "Statistics and Probability",
+      "Earth and Life Science",
+      "Physical Science"
+    ],
+    "specializedSubjects": [
+      "Pre-Calculus",
+      "Calculus",
+      "Basic Calculus",
+      "Biology",
+      "Chemistry",
+      "Physics"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&h=600&fit=crop"
+  },
+  {
+    "id": "shs-abm",
+    "trackType": "Academic",
+    "strand": "ABM",
+    "title": "ABM - Accountancy, Business, Management",
+    "description": "Ideal for students interested in business, entrepreneurship, and financial management. Prepares students for careers in business, accounting, marketing, and management.",
+    "vector": [0.75, 0.7, 0.65, 0.8, 0.55, 0.6, 0.75, 0.85],
+    "tags": ["analytical", "leadership", "strategic", "communication", "business-minded"],
+    "recommendedGrades": {
+      "math": 80,
+      "english": 80,
+      "gpa": 3.0
+    },
+    "careerPathways": [
+      "jp-005",
+      "jp-001"
+    ],
+    "collegePrograms": [
+      "Accountancy",
+      "Business Administration",
+      "Business Management",
+      "Entrepreneurship",
+      "Marketing",
+      "Economics",
+      "Finance",
+      "Human Resource Management",
+      "Hotel and Restaurant Management"
+    ],
+    "coreSubjects": [
+      "General Mathematics",
+      "Statistics and Probability",
+      "Organization and Management",
+      "Fundamentals of Accountancy, Business and Management"
+    ],
+    "specializedSubjects": [
+      "Business Math",
+      "Business Finance",
+      "Business Enterprise Simulation",
+      "Applied Economics",
+      "Principles of Marketing",
+      "Work Immersion"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop"
+  },
+  {
+    "id": "shs-humss",
+    "trackType": "Academic",
+    "strand": "HUMSS",
+    "title": "HUMSS - Humanities and Social Sciences",
+    "description": "Perfect for students passionate about social sciences, humanities, and communication. Prepares for careers in education, social work, journalism, law, and public service.",
+    "vector": [0.65, 0.55, 0.85, 0.75, 0.8, 0.6, 0.9, 0.7],
+    "tags": ["empathetic", "creative", "communication", "social", "analytical"],
+    "recommendedGrades": {
+      "english": 85,
+      "gpa": 3.0
+    },
+    "careerPathways": [
+      "jp-007"
+    ],
+    "collegePrograms": [
+      "Psychology",
+      "Political Science",
+      "Sociology",
+      "Philosophy",
+      "Communication",
+      "Journalism",
+      "Mass Communication",
+      "Education",
+      "Social Work",
+      "Law",
+      "Literature",
+      "History"
+    ],
+    "coreSubjects": [
+      "General Mathematics",
+      "Statistics and Probability",
+      "Philippine Politics and Governance",
+      "Introduction to World Religions and Belief Systems"
+    ],
+    "specializedSubjects": [
+      "Creative Writing",
+      "Creative Nonfiction",
+      "Disciplines and Ideas in Social Sciences",
+      "English for Academic and Professional Purposes",
+      "Community Engagement, Solidarity, and Citizenship",
+      "Trends, Networks and Critical Thinking in the 21st Century"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800&h=600&fit=crop"
+  },
+  {
+    "id": "shs-gas",
+    "trackType": "Academic",
+    "strand": "GAS",
+    "title": "GAS - General Academic Strand",
+    "description": "A flexible track for students who are still exploring their interests or want a broad-based education. Allows students to sample subjects from different disciplines before choosing a college program.",
+    "vector": [0.7, 0.65, 0.7, 0.75, 0.65, 0.65, 0.7, 0.75],
+    "tags": ["versatile", "exploratory", "adaptable", "balanced"],
+    "recommendedGrades": {
+      "gpa": 2.75
+    },
+    "careerPathways": [
+      "jp-001",
+      "jp-003",
+      "jp-005",
+      "jp-007"
+    ],
+    "collegePrograms": [
+      "General Education",
+      "Liberal Arts",
+      "Various disciplines depending on electives chosen"
+    ],
+    "coreSubjects": [
+      "General Mathematics",
+      "Statistics and Probability",
+      "Earth and Life Science",
+      "Physical Science",
+      "Organization and Management",
+      "Humanities"
+    ],
+    "specializedSubjects": [
+      "Electives from STEM, ABM, or HUMSS",
+      "Applied subjects based on student interest",
+      "Work Immersion"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop"
+  },
+  {
+    "id": "shs-ict",
+    "trackType": "TVL",
+    "strand": "ICT",
+    "title": "TVL-ICT - Information and Communications Technology",
+    "description": "Technical-vocational track focused on computer programming, web development, animation, and technical support. Provides hands-on ICT skills for immediate employment or further study.",
+    "vector": [0.85, 0.8, 0.5, 0.85, 0.55, 0.75, 0.5, 0.75],
+    "tags": ["technical", "analytical", "creative", "problem-solving", "digital"],
+    "recommendedGrades": {
+      "math": 78,
+      "gpa": 2.75
+    },
+    "careerPathways": [
+      "jp-001",
+      "jp-003"
+    ],
+    "collegePrograms": [
+      "Computer Science",
+      "Information Technology",
+      "Computer Engineering",
+      "Multimedia Arts",
+      "Animation",
+      "Game Development"
+    ],
+    "coreSubjects": [
+      "General Mathematics",
+      "Statistics and Probability",
+      "Physical Science",
+      "Empowerment Technologies"
+    ],
+    "specializedSubjects": [
+      "Computer Programming (Java/Python/C++)",
+      "Web Development",
+      "Computer Systems Servicing",
+      "Animation",
+      "Technical Drafting",
+      "Work Immersion in ICT Industry"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&h=600&fit=crop"
+  },
+  {
+    "id": "shs-he",
+    "trackType": "TVL",
+    "strand": "Home Economics",
+    "title": "TVL-HE - Home Economics",
+    "description": "Focuses on food service, hospitality, caregiving, and other home economics-related fields. Prepares students for careers in culinary arts, hospitality management, and healthcare support.",
+    "vector": [0.6, 0.6, 0.85, 0.75, 0.8, 0.85, 0.9, 0.7],
+    "tags": ["caring", "practical", "service-oriented", "creative", "hands-on"],
+    "recommendedGrades": {
+      "gpa": 2.5
+    },
+    "careerPathways": [
+      "jp-002"
+    ],
+    "collegePrograms": [
+      "Hotel and Restaurant Management",
+      "Culinary Arts",
+      "Tourism Management",
+      "Hospitality Management",
+      "Nursing",
+      "Caregiving",
+      "Food Technology"
+    ],
+    "coreSubjects": [
+      "General Mathematics",
+      "Earth and Life Science",
+      "Entrepreneurship"
+    ],
+    "specializedSubjects": [
+      "Bread and Pastry Production",
+      "Cookery",
+      "Food and Beverage Services",
+      "Housekeeping",
+      "Caregiving",
+      "Bartending",
+      "Work Immersion in Hospitality/Healthcare"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&h=600&fit=crop"
+  },
+  {
+    "id": "shs-ia",
+    "trackType": "TVL",
+    "strand": "Industrial Arts",
+    "title": "TVL-IA - Industrial Arts",
+    "description": "Technical track for students interested in construction, automotive, welding, plumbing, and other trades. Provides practical skills for immediate employment in skilled trades.",
+    "vector": [0.75, 0.85, 0.6, 0.65, 0.7, 0.95, 0.6, 0.7],
+    "tags": ["hands-on", "technical", "physical", "problem-solving", "practical"],
+    "recommendedGrades": {
+      "math": 75,
+      "gpa": 2.5
+    },
+    "careerPathways": [
+      "jp-004"
+    ],
+    "collegePrograms": [
+      "Civil Engineering",
+      "Mechanical Engineering",
+      "Electrical Engineering",
+      "Architecture",
+      "Industrial Engineering",
+      "Automotive Technology"
+    ],
+    "coreSubjects": [
+      "General Mathematics",
+      "Physical Science",
+      "Entrepreneurship"
+    ],
+    "specializedSubjects": [
+      "Electrical Installation and Maintenance",
+      "Automotive Servicing",
+      "Welding",
+      "Plumbing",
+      "Carpentry",
+      "Masonry",
+      "Electronics",
+      "Work Immersion in Industrial Sector"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&h=600&fit=crop"
+  },
+  {
+    "id": "shs-agri",
+    "trackType": "TVL",
+    "strand": "Agri-Fishery Arts",
+    "title": "TVL-AFA - Agri-Fishery Arts",
+    "description": "Focuses on agriculture, aquaculture, and other agricultural sciences. Ideal for students interested in farming, fisheries, and agricultural entrepreneurship.",
+    "vector": [0.7, 0.75, 0.65, 0.6, 0.6, 0.9, 0.7, 0.65],
+    "tags": ["practical", "hands-on", "environmental", "entrepreneurial", "physical"],
+    "recommendedGrades": {
+      "science": 75,
+      "gpa": 2.5
+    },
+    "careerPathways": [],
+    "collegePrograms": [
+      "Agriculture",
+      "Agricultural Engineering",
+      "Agribusiness",
+      "Fisheries",
+      "Animal Science",
+      "Veterinary Medicine",
+      "Environmental Science",
+      "Forestry"
+    ],
+    "coreSubjects": [
+      "General Mathematics",
+      "Earth and Life Science",
+      "Entrepreneurship"
+    ],
+    "specializedSubjects": [
+      "Crop Production",
+      "Animal Production",
+      "Aquaculture",
+      "Landscape Installation and Maintenance",
+      "Pest Management",
+      "Agricultural Crop Production",
+      "Work Immersion in Agricultural Sector"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=800&h=600&fit=crop"
+  },
+  {
+    "id": "shs-sports",
+    "trackType": "Sports",
+    "title": "Sports Track",
+    "description": "Specialized track for student-athletes who want to pursue sports while maintaining academic excellence. Prepares for careers in professional sports, coaching, sports management, and physical education.",
+    "vector": [0.65, 0.55, 0.75, 0.6, 0.7, 0.95, 0.8, 0.75],
+    "tags": ["athletic", "disciplined", "competitive", "team-oriented", "physical"],
+    "recommendedGrades": {
+      "gpa": 2.75
+    },
+    "careerPathways": [],
+    "collegePrograms": [
+      "Physical Education",
+      "Sports Science",
+      "Exercise and Sports Management",
+      "Athletic Training",
+      "Kinesiology",
+      "Recreation Management"
+    ],
+    "coreSubjects": [
+      "General Mathematics",
+      "Physical Science",
+      "Earth and Life Science",
+      "Personal Development"
+    ],
+    "specializedSubjects": [
+      "Human Movement",
+      "Sports Officiating and Activity Management",
+      "Fitness and Conditioning",
+      "Sports Nutrition",
+      "Sports Psychology",
+      "Dance and Rhythmic Activities",
+      "Work Immersion in Sports Industry"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=600&fit=crop"
+  },
+  {
+    "id": "shs-arts",
+    "trackType": "Arts and Design",
+    "title": "Arts and Design Track",
+    "description": "For creatively inclined students interested in visual arts, performing arts, music, and design. Develops artistic skills and prepares for careers in the creative industries.",
+    "vector": [0.6, 0.5, 0.7, 0.95, 0.6, 0.65, 0.75, 0.8],
+    "tags": ["creative", "artistic", "expressive", "innovative", "visual"],
+    "recommendedGrades": {
+      "gpa": 2.75
+    },
+    "careerPathways": [
+      "jp-003"
+    ],
+    "collegePrograms": [
+      "Fine Arts",
+      "Multimedia Arts",
+      "Graphic Design",
+      "Interior Design",
+      "Fashion Design",
+      "Music",
+      "Theater Arts",
+      "Film and Animation",
+      "Architecture"
+    ],
+    "coreSubjects": [
+      "General Mathematics",
+      "Earth and Life Science",
+      "Contemporary Philippine Arts from the Regions"
+    ],
+    "specializedSubjects": [
+      "Creative Industries I & II",
+      "Physical and Personal Development in the Arts",
+      "Exhibit for Community Art",
+      "Production/Performance",
+      "Visual Arts, Theater Arts, or Music specialization",
+      "Work Immersion in Creative Industry"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&h=600&fit=crop"
+  }
+]
