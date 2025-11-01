@@ -297,6 +297,7 @@ export default function AssessmentFlowPage() {
           <CardContent className="pt-6">
             {currentQuestion.type === "likert" && (
               <LikertScale
+                key={currentQuestion.id}
                 questionId={currentQuestion.id}
                 question={currentQuestion.text}
                 value={
@@ -310,6 +311,7 @@ export default function AssessmentFlowPage() {
 
             {currentQuestion.type === "mcq" && currentQuestion.options && (
               <MultipleChoice
+                key={currentQuestion.id}
                 questionId={currentQuestion.id}
                 question={currentQuestion.text}
                 options={currentQuestion.options}
