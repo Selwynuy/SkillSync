@@ -4,7 +4,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/common/theme-toggle"
-import { Menu } from "lucide-react"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Menu, LogOut, Settings, LayoutDashboard, ChevronDown } from "lucide-react"
 import { useSession, signOut } from "next-auth/react"
 import {
   DropdownMenu,
@@ -12,6 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu"
 
 export function Navbar() {
@@ -57,19 +59,57 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <ThemeToggle />
 
-          <div className="hidden md:flex md:gap-2">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex md:items-center md:gap-2">
             {session ? (
-              <>
-                <Button variant="ghost" asChild>
-                  <Link href="/dashboard">Dashboard</Link>
-                </Button>
-                <Button variant="ghost" asChild>
-                  <Link href="/settings">Settings</Link>
-                </Button>
-                <Button variant="ghost" onClick={() => signOut()}>
-                  Sign Out
-                </Button>
-              </>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="flex items-center gap-2 px-2">
+                    <Avatar className="size-8">
+                      <AvatarFallback>
+                        {session.user?.name?.[0]?.toUpperCase() || session.user?.email?.[0]?.toUpperCase() || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="hidden sm:block text-sm font-medium">
+                      {session.user?.name || session.user?.email?.split("@")[0] || "User"}
+                    </span>
+                    <ChevronDown className="hidden sm:block size-4 text-muted-foreground" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {session.user?.name || "User"}
+                      </p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {session.user?.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard" className="flex items-center w-full">
+                      <LayoutDashboard className="mr-2 size-4" />
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/settings" className="flex items-center w-full">
+                      <Settings className="mr-2 size-4" />
+                      Settings
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => signOut()}
+                    className="text-destructive focus:text-destructive"
+                  >
+                    <LogOut className="mr-2 size-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <>
                 <Button variant="ghost" asChild>
@@ -91,7 +131,50 @@ export function Navbar() {
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuContent align="end" className="w-56">
+                {session && (
+                  <>
+                    <DropdownMenuLabel>
+                      <div className="flex items-center gap-2">
+                        <Avatar className="size-8">
+                          <AvatarFallback>
+                            {session.user?.name?.[0]?.toUpperCase() || session.user?.email?.[0]?.toUpperCase() || "U"}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col space-y-0.5">
+                          <p className="text-sm font-medium leading-none">
+                            {session.user?.name || "User"}
+                          </p>
+                          <p className="text-xs leading-none text-muted-foreground">
+                            {session.user?.email}
+                          </p>
+                        </div>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard" className="flex items-center w-full">
+                        <LayoutDashboard className="mr-2 size-4" />
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/settings" className="flex items-center w-full">
+                        <Settings className="mr-2 size-4" />
+                        Settings
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() => signOut()}
+                      className="text-destructive focus:text-destructive"
+                    >
+                      <LogOut className="mr-2 size-4" />
+                      Sign Out
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                  </>
+                )}
                 {navItems.map((item) => (
                   <DropdownMenuItem key={item.href} asChild>
                     <Link href={item.href} className="w-full">
@@ -99,25 +182,9 @@ export function Navbar() {
                     </Link>
                   </DropdownMenuItem>
                 ))}
-                <DropdownMenuSeparator />
-                {session ? (
+                {!session && (
                   <>
-                    <DropdownMenuItem asChild>
-                      <Link href="/dashboard" className="w-full">
-                        Dashboard
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/settings" className="w-full">
-                        Settings
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => signOut()}>
-                      Sign Out
-                    </DropdownMenuItem>
-                  </>
-                ) : (
-                  <>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
                       <Link href="/auth/signin" className="w-full">
                         Sign In

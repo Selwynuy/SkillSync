@@ -180,8 +180,8 @@ export default function GradesInputPage() {
 
               <CardContent className="space-y-8">
                 {/* Info Alert */}
-                <Alert>
-                  <Info className="h-4 w-4" />
+                <Alert className="items-start">
+                  <Info className="h-4 w-4 shrink-0 mt-0.5" />
                   <AlertDescription>
                     Your grades will be used to enhance AI-powered career recommendations. You can skip this step or update your grades later in your dashboard.
                   </AlertDescription>
