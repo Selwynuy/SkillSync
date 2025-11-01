@@ -12,7 +12,7 @@
     },
     "educationLevel": "Bachelor's",
     "growthRate": 22,
-    "imageUrl": "/images/careers/software-developer.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop"
   },
   {
     "id": "jp-002",
@@ -27,7 +27,7 @@
     },
     "educationLevel": "Bachelor's",
     "growthRate": 9,
-    "imageUrl": "/images/careers/nurse.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&h=600&fit=crop"
   },
   {
     "id": "jp-003",
@@ -42,7 +42,7 @@
     },
     "educationLevel": "Bachelor's",
     "growthRate": 3,
-    "imageUrl": "/images/careers/graphic-designer.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800&h=600&fit=crop"
   },
   {
     "id": "jp-004",
@@ -57,7 +57,7 @@
     },
     "educationLevel": "High School",
     "growthRate": 8,
-    "imageUrl": "/images/careers/electrician.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&h=600&fit=crop"
   },
   {
     "id": "jp-005",
@@ -72,7 +72,7 @@
     },
     "educationLevel": "Bachelor's",
     "growthRate": 10,
-    "imageUrl": "/images/careers/marketing-manager.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop"
   },
   {
     "id": "jp-006",
@@ -87,7 +87,7 @@
     },
     "educationLevel": "Master's",
     "growthRate": 36,
-    "imageUrl": "/images/careers/data-scientist.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
   },
   {
     "id": "jp-007",
@@ -102,7 +102,7 @@
     },
     "educationLevel": "Bachelor's",
     "growthRate": 4,
-    "imageUrl": "/images/careers/teacher.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop"
   },
   {
     "id": "jp-008",
@@ -117,7 +117,7 @@
     },
     "educationLevel": "Bachelor's",
     "growthRate": 7,
-    "imageUrl": "/images/careers/mechanical-engineer.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=800&h=600&fit=crop"
   },
   {
     "id": "jp-009",
@@ -132,7 +132,7 @@
     },
     "educationLevel": "High School",
     "growthRate": 6,
-    "imageUrl": "/images/careers/chef.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&h=600&fit=crop"
   },
   {
     "id": "jp-010",
@@ -147,7 +147,7 @@
     },
     "educationLevel": "Bachelor's",
     "growthRate": 6,
-    "imageUrl": "/images/careers/financial-analyst.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop"
   },
   {
     "id": "jp-011",
@@ -162,7 +162,7 @@
     },
     "educationLevel": "Doctorate",
     "growthRate": 18,
-    "imageUrl": "/images/careers/physical-therapist.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop"
   },
   {
     "id": "jp-012",
@@ -177,6 +177,6 @@
     },
     "educationLevel": "Bachelor's",
     "growthRate": 13,
-    "imageUrl": "/images/careers/ux-designer.jpg"
+    "imageUrl": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop"
   }
 ]

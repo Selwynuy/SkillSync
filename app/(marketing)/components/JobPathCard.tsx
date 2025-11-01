@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight, TrendingUp } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -22,21 +23,30 @@ export function JobPathCard({ jobPath }: JobPathCardProps) {
 
   return (
     <Card className="group relative overflow-hidden transition-all hover:shadow-lg" role="article" aria-label={`${jobPath.title} career path`}>
-      {/* Background gradient on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-
-      <CardHeader className="relative">
-        <div className="mb-3 flex items-start justify-between">
+      {/* Career Image */}
+      <div className="relative h-48 overflow-hidden">
+        <Image
+          src={jobPath.imageUrl || "/images/careers/default.jpg"}
+          alt={jobPath.title}
+          fill
+          className="object-cover transition-transform group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+        {/* Badges Overlay */}
+        <div className="absolute top-3 left-3 right-3 flex items-start justify-between">
           <Badge variant="secondary" className="text-xs">
             {jobPath.category}
           </Badge>
           {jobPath.growthRate > 10 && (
-            <div className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
-              <TrendingUp className="h-3 w-3" />
-              <span>{jobPath.growthRate}%</span>
-            </div>
+            <Badge className="text-xs bg-green-600 hover:bg-green-700">
+              <TrendingUp className="h-3 w-3 mr-1" />
+              {jobPath.growthRate}%
+            </Badge>
           )}
         </div>
+      </div>
+
+      <CardHeader className="relative">
         <h3 className="text-xl font-bold">{jobPath.title}</h3>
       </CardHeader>
 
