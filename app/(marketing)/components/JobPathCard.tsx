@@ -22,7 +22,7 @@ export function JobPathCard({ jobPath }: JobPathCardProps) {
   }
 
   return (
-    <Card className="group relative overflow-hidden transition-all hover:shadow-lg" role="article" aria-label={`${jobPath.title} career path`}>
+    <Card className="group relative overflow-hidden transition-all hover:shadow-lg pt-0" role="article" aria-label={`${jobPath.title} career path`}>
       {/* Career Image */}
       <div className="relative h-48 overflow-hidden">
         <Image
