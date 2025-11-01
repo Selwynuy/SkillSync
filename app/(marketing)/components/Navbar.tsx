@@ -57,6 +57,9 @@ export function Navbar() {
                 <Button variant="ghost" asChild>
                   <Link href="/dashboard">Dashboard</Link>
                 </Button>
+                <Button variant="ghost" asChild>
+                  <Link href="/settings">Settings</Link>
+                </Button>
                 <Button variant="ghost" onClick={() => signOut()}>
                   Sign Out
                 </Button>
@@ -96,6 +99,11 @@ export function Navbar() {
                     <DropdownMenuItem asChild>
                       <Link href="/dashboard" className="w-full">
                         Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/settings" className="w-full">
+                        Settings
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => signOut()}>

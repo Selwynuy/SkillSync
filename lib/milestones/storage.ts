@@ -150,3 +150,22 @@ export function validateMilestones(milestones: any): string | null {
 
   return null;
 }
+
+/**
+ * Delete all milestones for a user.
+ *
+ * @param userId - User ID
+ * @returns Number of milestone records deleted
+ */
+export async function deleteUserMilestones(userId: string): Promise<number> {
+  let deletedCount = 0;
+
+  for (const [key, um] of userMilestones.entries()) {
+    if (um.userId === userId) {
+      userMilestones.delete(key);
+      deletedCount++;
+    }
+  }
+
+  return deletedCount;
+}

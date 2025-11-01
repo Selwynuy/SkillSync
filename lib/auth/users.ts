@@ -22,6 +22,19 @@ export async function getUserByEmail(
   return users.get(email.toLowerCase()) || null
 }
 
+export async function getUserById(
+  userId: string
+): Promise<User | null> {
+  for (const user of users.values()) {
+    if (user.id === userId) {
+      // Return user without password
+      const { password: _, ...userWithoutPassword } = user;
+      return userWithoutPassword;
+    }
+  }
+  return null;
+}
+
 export async function createUser(
   email: string,
   password: string,
@@ -98,4 +111,14 @@ export async function verifyMagicToken(
   tokenData.used = true
 
   return tokenData.email
+}
+
+export async function deleteUser(userId: string): Promise<boolean> {
+  // Find and delete user by ID
+  for (const [email, user] of users.entries()) {
+    if (user.id === userId) {
+      return users.delete(email);
+    }
+  }
+  return false;
 }

@@ -198,3 +198,22 @@ export async function getSavedJobPathsWithDetails(
     .map((s) => jobPathMap.get(s.jobPathId))
     .filter((jp): jp is JobPath => jp !== undefined);
 }
+
+/**
+ * Delete all saved job paths for a user.
+ *
+ * @param userId - User ID
+ * @returns Number of saved paths deleted
+ */
+export async function deleteUserSavedPaths(userId: string): Promise<number> {
+  let deletedCount = 0;
+
+  for (const [key, savedPath] of savedPaths.entries()) {
+    if (savedPath.userId === userId) {
+      savedPaths.delete(key);
+      deletedCount++;
+    }
+  }
+
+  return deletedCount;
+}

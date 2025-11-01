@@ -101,3 +101,25 @@ export async function getLatestAttempt(
   const userAttempts = await getUserAttempts(userId)
   return userAttempts[0] || null
 }
+
+export async function deleteUserAttempts(userId: string): Promise<number> {
+  let deletedCount = 0;
+
+  // Delete completed attempts
+  for (const [id, attempt] of attempts.entries()) {
+    if (attempt.userId === userId) {
+      attempts.delete(id);
+      deletedCount++;
+    }
+  }
+
+  // Delete in-progress attempts
+  for (const [id, attempt] of inProgressAttempts.entries()) {
+    if (attempt.userId === userId) {
+      inProgressAttempts.delete(id);
+      deletedCount++;
+    }
+  }
+
+  return deletedCount;
+}
