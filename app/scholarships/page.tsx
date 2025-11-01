@@ -127,20 +127,20 @@ export default function ScholarshipsPage() {
 
   // Generate consistent scholarship image URL using Unsplash
   function getScholarshipImageUrl(scholarshipId: string, index: number): string {
-    // Use different education/scholarship themed images
-    const imageIds = [
-      "vasily-koloda-8CqDvPuo_kI", // Graduation cap throw
-      "wes-hicks-4-EeTnaC1S4", // Students celebrating
-      "pang-yuhao-kd5cxwZOK4", // Graduation ceremony
-      "md-duran-1VqHRwxcCCw", // Open book
-      "green-chameleon-s9CC2SKySJM", // Study materials
-      "element5-digital-T9CXBZLUvic", // Students learning
-      "priscilla-du-preez-XkKCui44iM0", // Academic success
-      "kimberly-farmer-lUaaKCUANVI", // Library study
+    // Use different education/scholarship themed images with proper Unsplash photo URLs
+    const imageUrls = [
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644", // Graduation ceremony
+      "https://images.unsplash.com/photo-1523289333742-be1143f6b766", // Students celebrating
+      "https://images.unsplash.com/photo-1519406596751-0a3ccc4937fe", // Books and study
+      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b", // Student studying
+      "https://images.unsplash.com/photo-1434030216411-0b793f4b4173", // Laptop studying
+      "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8", // Notes and books
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f", // Students learning together
+      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1", // University building
     ];
 
-    const imageId = imageIds[index % imageIds.length];
-    return `https://images.unsplash.com/${imageId}?w=800&h=240&fit=crop`;
+    const imageUrl = imageUrls[index % imageUrls.length];
+    return `${imageUrl}?w=800&h=240&fit=crop&auto=format`;
   }
 
   function isDeadlineSoon(deadline: Date): boolean {

@@ -153,20 +153,20 @@ export default function CollegesPage() {
 
   // Generate consistent college image URL using Unsplash
   function getCollegeImageUrl(collegeId: string, index: number): string {
-    // Use different college/campus themed images
-    const imageIds = [
-      "vasily-koloda-8CqDvPuo_kI", // University campus
-      "element5-digital-OyCl7Y4y0Bk", // Students studying
-      "md-duran-rE9vgD_TXgM", // College building
-      "dom-fou-YRMWVcdyhmI", // Campus architecture
-      "priscilla-du-preez-W3SEyZODn8U", // University hall
-      "neonbrand-zFSo6bnZJTw", // Modern campus
-      "kyle-gregory-devaras-6RTM8EsD1T8", // University library
-      "banti-dey-y1W27qqoHE0", // College students
+    // Use different college/campus themed images with proper Unsplash photo URLs
+    const imageUrls = [
+      "https://images.unsplash.com/photo-1541339907198-e08756dedf3f", // Campus building
+      "https://images.unsplash.com/photo-1562774053-701939374585", // University campus
+      "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a", // Students studying
+      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1", // University building
+      "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b", // Library interior
+      "https://images.unsplash.com/photo-1519406596751-0a3ccc4937fe", // Campus architecture
+      "https://images.unsplash.com/photo-1546519638-68e109498ffc", // Modern university
+      "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45", // Students on campus
     ];
 
-    const imageId = imageIds[index % imageIds.length];
-    return `https://images.unsplash.com/${imageId}?w=400&h=240&fit=crop`;
+    const imageUrl = imageUrls[index % imageUrls.length];
+    return `${imageUrl}?w=400&h=240&fit=crop&auto=format`;
   }
 
   if (loading) {
