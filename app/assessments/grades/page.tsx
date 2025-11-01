@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ import { ArrowRight, GraduationCap, Info, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { GradeLevel } from "@/lib/types";
 
-export default function GradesInputPage() {
+function GradesInputPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session, status } = useSession();
@@ -350,5 +350,17 @@ function GradeInputSection({ title, grades, onChange }: GradeInputSectionProps) 
         </div>
       </div>
     </div>
+  );
+}
+
+export default function GradesInputPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    }>
+      <GradesInputPageContent />
+    </Suspense>
   );
 }
