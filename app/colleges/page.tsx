@@ -14,6 +14,9 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { MapPin, GraduationCap, DollarSign, TrendingUp, AlertCircle, Laptop } from "lucide-react";
+import { Navbar } from "@/app/(marketing)/components/Navbar";
+import { Footer } from "@/app/(marketing)/components/Footer";
+import { SkipToContent } from "@/components/common/skip-to-content";
 
 export default function CollegesPage() {
   const [colleges, setColleges] = useState<College[]>([]);
@@ -149,18 +152,29 @@ export default function CollegesPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
-          <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
-          <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
-        </div>
+      <div className="flex min-h-screen flex-col">
+        <SkipToContent />
+        <Navbar />
+        <main id="main-content" className="flex-1" role="main">
+          <div className="container mx-auto px-4 py-8 max-w-7xl">
+            <div className="animate-pulse space-y-4">
+              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
+              <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
+              <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div>
+            </div>
+          </div>
+        </main>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className="flex min-h-screen flex-col">
+      <SkipToContent />
+      <Navbar />
+      <main id="main-content" className="flex-1" role="main">
+        <div className="container mx-auto px-4 py-8 max-w-7xl">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Colleges & Universities</h1>
@@ -436,6 +450,9 @@ export default function CollegesPage() {
           </Card>
         ))}
       </div>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 }
