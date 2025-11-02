@@ -4,12 +4,57 @@ import { getAllJobPaths } from "@/lib/repositories/jobPaths";
 import { getAllSHSTracks } from "@/lib/repositories/shsTracks";
 import { getAllColleges } from "@/lib/repositories/colleges";
 import { getAllScholarships } from "@/lib/repositories/scholarships";
+import {
+  getOrCreateConversation,
+  saveMessage,
+  getConversationHistory,
+} from "@/lib/repositories/chatHistory";
+import { auth } from "@/auth";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
+export async function GET(request: NextRequest) {
+  try {
+    // Get the current user session
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    // Get the conversation ID from query params
+    const { searchParams } = new URL(request.url);
+    const conversationId = searchParams.get("conversationId");
+
+    if (!conversationId) {
+      return NextResponse.json(
+        { error: "Conversation ID is required" },
+        { status: 400 }
+      );
+    }
+
+    // Get conversation history
+    const history = await getConversationHistory(conversationId, 50);
+
+    return NextResponse.json({
+      messages: history,
+    });
+  } catch (error) {
+    console.error("Error fetching conversation history:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch conversation history" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { message } = await request.json();
+    const { message, conversationId: clientConversationId } = await request.json();
 
     if (!message || typeof message !== "string") {
       return NextResponse.json(
@@ -17,6 +62,10 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Get the current user session
+    const session = await auth();
+    const userId = session?.user?.id;
 
     // Check if Gemini API key is configured
     if (!process.env.GEMINI_API_KEY) {
@@ -27,6 +76,22 @@ export async function POST(request: NextRequest) {
         },
         { status: 200 }
       );
+    }
+
+    // Get or create conversation for logged-in users
+    let conversationId = clientConversationId;
+    if (userId && !conversationId) {
+      conversationId = await getOrCreateConversation(userId);
+    }
+
+    // Get conversation history for context (only for logged-in users)
+    let conversationHistory: any[] = [];
+    if (userId && conversationId) {
+      const history = await getConversationHistory(conversationId, 20);
+      conversationHistory = history.map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+      }));
     }
 
     // Fetch all website data for context
@@ -41,7 +106,7 @@ export async function POST(request: NextRequest) {
     const context = buildContext(jobPaths, shsTracks, colleges, scholarships);
 
     // Generate response using Gemini
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const systemPrompt = `You are a friendly and helpful career advisor chatbot for SkillSync, a platform that helps Grade 10 students in the Philippines choose their career paths, SHS strands, colleges, and scholarships.
 
@@ -66,20 +131,36 @@ IMPORTANT RULES:
 3. Always be encouraging and positive
 4. If relevant, suggest they take the assessment or explore specific features
 5. Don't make up information - only use the data provided below
+6. Be aware of previous conversation context and refer back to it when relevant
 
 Available Data:
 ${context}
 
 Remember: You're helping Grade 10 students make important life decisions. Be supportive, clear, and helpful!`;
 
-    const prompt = `${systemPrompt}\n\nStudent's question: ${message}`;
+    // Build conversation context with history
+    let fullPrompt = systemPrompt;
+    if (conversationHistory.length > 0) {
+      fullPrompt += "\n\nPrevious conversation:\n";
+      conversationHistory.forEach((msg) => {
+        fullPrompt += `${msg.role === "user" ? "Student" : "You"}: ${msg.content}\n`;
+      });
+    }
+    fullPrompt += `\n\nStudent's question: ${message}`;
 
-    const result = await model.generateContent(prompt);
+    const result = await model.generateContent(fullPrompt);
     const response = result.response;
     const text = response.text();
 
+    // Save messages to database for logged-in users
+    if (userId && conversationId) {
+      await saveMessage(conversationId, "user", message);
+      await saveMessage(conversationId, "assistant", text.trim());
+    }
+
     return NextResponse.json({
       response: text.trim(),
+      conversationId: conversationId,
     });
   } catch (error) {
     console.error("Chatbot error:", error);
