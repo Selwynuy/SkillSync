@@ -250,7 +250,7 @@ export default function RecommendationsPage() {
                   </div>
 
                   {/* Podium Layout */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end max-w-5xl mx-auto">
+                  <div className="grid grid-cols-1 md:grid-cols-[1fr_1.1fr_1fr] gap-6 items-end max-w-5xl mx-auto">
                     {/* 2nd Place - Left */}
                     {topThree[1] && (
                       <PodiumCard
@@ -267,19 +267,17 @@ export default function RecommendationsPage() {
 
                     {/* 1st Place - Center (Taller) */}
                     {topThree[0] && (
-                      <div className="md:order-first md:col-start-2">
-                        <PodiumCard
-                          recommendation={topThree[0]}
-                          rank={1}
-                          isSaved={savedPaths.has(topThree[0].jobPath.id)}
-                          isSaving={savingPath === topThree[0].jobPath.id}
-                          onSave={() => toggleSavePath(topThree[0].jobPath.id)}
-                          onLearnMore={() => router.push(`/career/${topThree[0].jobPath.id}`)}
-                          formatSalary={formatSalary}
-                          matchingColleges={getMatchingColleges(topThree[0].jobPath)}
-                          isFirst
-                        />
-                      </div>
+                      <PodiumCard
+                        recommendation={topThree[0]}
+                        rank={1}
+                        isSaved={savedPaths.has(topThree[0].jobPath.id)}
+                        isSaving={savingPath === topThree[0].jobPath.id}
+                        onSave={() => toggleSavePath(topThree[0].jobPath.id)}
+                        onLearnMore={() => router.push(`/career/${topThree[0].jobPath.id}`)}
+                        formatSalary={formatSalary}
+                        matchingColleges={getMatchingColleges(topThree[0].jobPath)}
+                        isFirst
+                      />
                     )}
 
                     {/* 3rd Place - Right */}
