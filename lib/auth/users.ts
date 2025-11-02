@@ -73,6 +73,7 @@ export async function getUserById(userId: string): Promise<User | null> {
 
 /**
  * Create a new user account
+ * Creates user in Supabase Auth first, then syncs to custom users table
  */
 export async function createUser(
   email: string,
@@ -81,19 +82,36 @@ export async function createUser(
 ): Promise<User> {
   const normalizedEmail = email.toLowerCase();
 
-  // Check if user already exists
+  // Check if user already exists in Supabase Auth
   const existingUser = await getUserByEmail(normalizedEmail);
   if (existingUser) {
     throw new Error("User already exists");
   }
 
-  // Hash password
+  // Create user in Supabase Auth with email confirmation required
+  // Supabase will automatically send confirmation email if SMTP is configured
+  const { data: authUser, error: authError } = await supabaseAdmin.auth.admin.createUser({
+    email: normalizedEmail,
+    password: password,
+    email_confirm: false, // User needs to verify email - Supabase will send confirmation email
+    user_metadata: {
+      name: name || null,
+    },
+  });
+
+  if (authError || !authUser.user) {
+    console.error("Error creating user in Supabase Auth:", authError);
+    throw new Error("Failed to create user");
+  }
+
+  // Hash password for our custom table (for backwards compatibility)
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Insert user into database
+  // Sync user to custom users table with the same ID from Supabase Auth
   const { data, error } = await supabaseAdmin
     .from("users")
     .insert({
+      id: authUser.user.id, // Use Supabase Auth user ID
       email: normalizedEmail,
       name: name || null,
       password_hash: hashedPassword,
@@ -103,8 +121,10 @@ export async function createUser(
     .single();
 
   if (error || !data) {
-    console.error("Error creating user:", error);
-    throw new Error("Failed to create user");
+    // If custom table insert fails, try to clean up the auth user
+    console.error("Error syncing user to custom table:", error);
+    // Don't delete auth user - it might already exist, just log the error
+    throw new Error("Failed to sync user to database");
   }
 
   return {

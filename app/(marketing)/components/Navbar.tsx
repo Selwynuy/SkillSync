@@ -21,7 +21,7 @@ export function Navbar() {
 
   const navItems = [
     { href: "/assessments", label: "Take Assessment" },
-    { href: "/market", label: "Job Market" },
+    { href: "/strands", label: "SHS Strands" },
     { href: "/colleges", label: "Colleges" },
     { href: "/scholarships", label: "Scholarships" },
   ]

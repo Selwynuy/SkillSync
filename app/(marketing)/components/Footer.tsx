@@ -7,7 +7,7 @@ export function Footer() {
   const footerLinks = {
     Product: [
       { href: "/assessments", label: "Career Assessment" },
-      { href: "/market", label: "Job Market" },
+      { href: "/strands", label: "SHS Strands" },
       { href: "/colleges", label: "College Search" },
       { href: "/scholarships", label: "Scholarships" },
     ],

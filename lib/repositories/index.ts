@@ -46,16 +46,6 @@ export {
   clearAssessmentsCache,
 } from "./assessments";
 
-// Job Listings Repository
-export {
-  getAllJobListings,
-  getJobListingById,
-  filterJobListings,
-  getAvailableRegions,
-  getAvailableCities,
-  clearJobListingsCache,
-} from "./jobListings";
-
 // Colleges Repository
 export {
   getAllColleges,

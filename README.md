@@ -15,7 +15,7 @@ AI-powered career assessment and personalized job path recommendations for stude
 ### Additional Features
 - **Scholarships**: Browse available scholarship opportunities
 - **Colleges**: Explore educational institutions
-- **Job Market**: View current job listings and market insights
+- **SHS Strands**: Explore Senior High School tracks and strands with detailed information
 - **Milestones**: Track your career journey milestones
 - **Data Export**: Export your assessment data and profile
 
