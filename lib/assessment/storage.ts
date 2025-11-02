@@ -157,7 +157,9 @@ export async function completeAttempt(
         attempt_id: completedData.id,
         question_id: response.questionId,
         value: response.value,
-        timestamp: response.timestamp.toISOString(),
+        timestamp: response.timestamp instanceof Date
+          ? response.timestamp.toISOString()
+          : response.timestamp,
       }));
 
       const { error: responsesError } = await supabaseAdmin
