@@ -183,7 +183,7 @@ export default function RecommendationsPage() {
         <main id="main-content" className="flex-1" role="main">
           <div className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 py-12">
             <div className="mx-auto max-w-2xl">
-              <Card className="border-destructive/50">
+              <Card className="border-destructive/50 pt-0">
                 <CardHeader>
                   <div className="flex items-center gap-2">
                     <AlertCircle className="h-5 w-5 text-destructive" />
@@ -229,7 +229,7 @@ export default function RecommendationsPage() {
           </div>
 
           {recommendations.length === 0 ? (
-            <Card>
+            <Card className="pt-0">
               <CardContent className="py-12 text-center">
                 <p className="text-muted-foreground">
                   No recommendations available. Please try retaking the assessment.
@@ -314,7 +314,7 @@ export default function RecommendationsPage() {
                       const matchingColleges = getMatchingColleges(rec.jobPath);
 
                       return (
-                        <Card key={rec.jobPath.id} className="overflow-hidden hover:shadow-lg transition-all duration-300">
+                        <Card key={rec.jobPath.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 pt-0">
                           {rec.jobPath.imageUrl && (
                             <div className="relative h-40 w-full">
                               <Image
@@ -332,16 +332,16 @@ export default function RecommendationsPage() {
                                 <Button
                                   variant="secondary"
                                   size="icon"
-                                  className="h-8 w-8 bg-background/90"
+                                  className="h-8 w-8 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-2 border-gray-300 dark:border-gray-600 shadow-xl hover:bg-white dark:hover:bg-gray-900 hover:shadow-2xl"
                                   onClick={() => toggleSavePath(rec.jobPath.id)}
                                   disabled={isSaving}
                                 >
                                   {isSaving ? (
-                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                    <Loader2 className="h-4 w-4 animate-spin text-foreground" />
                                   ) : isSaved ? (
-                                    <BookmarkCheck className="h-4 w-4" />
+                                    <BookmarkCheck className="h-4 w-4 text-primary fill-primary" />
                                   ) : (
-                                    <Bookmark className="h-4 w-4" />
+                                    <Bookmark className="h-4 w-4 text-foreground" />
                                   )}
                                 </Button>
                               </div>
@@ -487,7 +487,7 @@ function PodiumCard({
   };
 
   return (
-    <Card className={`overflow-hidden ${isFirst ? "ring-2 ring-primary shadow-2xl scale-105" : "shadow-lg"} transition-all duration-300 hover:shadow-xl bg-gradient-to-br ${getMedalColor()}`}>
+    <Card className={`overflow-hidden ${isFirst ? "ring-2 ring-primary shadow-2xl scale-105" : "shadow-lg"} transition-all duration-300 hover:shadow-xl bg-gradient-to-br ${getMedalColor()} pt-0`}>
       {/* Medal Badge */}
       <div className="absolute top-4 left-4 z-10">
         {getMedalIcon()}
@@ -498,16 +498,16 @@ function PodiumCard({
         <Button
           variant="secondary"
           size="icon"
-          className="h-9 w-9 bg-background/90 backdrop-blur-sm"
+          className="h-9 w-9 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-2 border-gray-300 dark:border-gray-600 shadow-xl hover:bg-white dark:hover:bg-gray-900 hover:shadow-2xl"
           onClick={onSave}
           disabled={isSaving}
         >
           {isSaving ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <Loader2 className="h-4 w-4 animate-spin text-foreground" />
           ) : isSaved ? (
-            <BookmarkCheck className="h-4 w-4" />
+            <BookmarkCheck className="h-4 w-4 text-primary fill-primary" />
           ) : (
-            <Bookmark className="h-4 w-4" />
+            <Bookmark className="h-4 w-4 text-foreground" />
           )}
         </Button>
       </div>
