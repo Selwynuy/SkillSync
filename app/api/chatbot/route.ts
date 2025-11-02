@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     const context = buildContext(jobPaths, shsTracks, colleges, scholarships);
 
     // Generate response using Gemini
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
     const systemPrompt = `You are a friendly and helpful career advisor chatbot for SkillSync, a platform that helps Grade 10 students in the Philippines choose their career paths, SHS strands, colleges, and scholarships.
 

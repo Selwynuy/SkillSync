@@ -163,7 +163,7 @@ async function generateLLMRationale(
   }
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
   // Build comprehensive prompt
   let prompt = `You are a Filipino guidance counselor helping a Grade 10 student choose their Senior High School (SHS) track.
