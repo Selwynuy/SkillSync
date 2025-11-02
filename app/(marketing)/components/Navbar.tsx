@@ -20,7 +20,7 @@ export function Navbar() {
   const { data: session } = useSession()
 
   const navItems = [
-    { href: "/assessments", label: "Take Assessment" },
+    { href: "/careers", label: "Career Paths" },
     { href: "/strands", label: "SHS Strands" },
     { href: "/colleges", label: "Colleges" },
     { href: "/scholarships", label: "Scholarships" },
