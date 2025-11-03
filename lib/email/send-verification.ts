@@ -51,9 +51,14 @@ export async function sendVerificationEmail(
       console.log(`\nVerification Link:\n${verificationUrl}`);
       console.log("\n💡 FREE EMAIL OPTIONS:");
       console.log("   1. Resend: https://resend.com (100 emails/day free)");
-      console.log("   2. SendGrid: https://sendgrid.com (100 emails/day free)");
-      console.log("   3. Brevo: https://brevo.com (300 emails/day free)");
+      console.log("      - Use onboarding@resend.dev for testing (no domain needed)");
+      console.log("      - Or verify your domain for production");
+      console.log("   2. Brevo: https://brevo.com (300 emails/day free) - No domain verification needed");
+      console.log("   3. SendGrid: https://sendgrid.com (100 emails/day free)");
       console.log("   4. Mailgun: https://mailgun.com (5k/month free)");
+      console.log("   5. Supabase SMTP: Configure in Supabase dashboard (if you have SMTP credentials)");
+      console.log("\n📝 TIP: For Resend, you can use 'onboarding@resend.dev' without domain verification!");
+      console.log("   Just set: EMAIL_FROM='SkillSync <onboarding@resend.dev>'");
       console.log("==============================================\n");
       return true;
     }
@@ -78,7 +83,7 @@ async function sendViaResend(email: string, verificationUrl: string, userName?: 
         "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: process.env.EMAIL_FROM || "SkillSync <onboarding@resend.dev>",
+        from: process.env.EMAIL_FROM || "SkillSync <onboarding@resend.dev>", // Use your verified domain: "SkillSync <noreply@yourdomain.com>"
         to: email,
         subject: "Welcome to SkillSync - Verify Your Email",
         html: getVerificationEmailTemplate(verificationUrl, userName),
@@ -86,8 +91,26 @@ async function sendViaResend(email: string, verificationUrl: string, userName?: 
     });
 
     if (!response.ok) {
-      const error = await response.text();
-      console.error("Resend error:", error);
+      const errorText = await response.text();
+      let errorData;
+      try {
+        errorData = JSON.parse(errorText);
+      } catch {
+        errorData = { message: errorText };
+      }
+      
+      console.error("Resend error:", errorData);
+      
+      // If domain error, provide helpful message
+      if (errorData.message?.includes("domain") || errorData.message?.includes("free public domains")) {
+        console.error("\n❌ DOMAIN ERROR:");
+        console.error("Resend requires a verified domain. Options:");
+        console.error("1. Use Resend's test domain: onboarding@resend.dev (default)");
+        console.error("2. Verify your own domain in Resend dashboard");
+        console.error("3. Set EMAIL_FROM env var to your verified domain");
+        console.error("   Example: EMAIL_FROM='SkillSync <noreply@yourdomain.com>'");
+      }
+      
       return false;
     }
 
@@ -170,10 +193,18 @@ async function sendViaMailgun(email: string, verificationUrl: string, userName?:
 }
 
 /**
- * Send email via Brevo (300 emails/day free)
+ * Send email via Brevo (300 emails/day free) - NO DOMAIN VERIFICATION NEEDED!
  */
 async function sendViaBrevo(email: string, verificationUrl: string, userName?: string): Promise<boolean> {
   try {
+    // Brevo allows any email in sender address - no domain verification needed
+    const senderEmail = process.env.EMAIL_FROM || "noreply@brevo.com";
+    const senderName = "SkillSync";
+    
+    // Extract email from format like "Name <email@domain.com>" or just "email@domain.com"
+    const emailMatch = senderEmail.match(/<(.+)>|^(.+)$/);
+    const emailAddress = emailMatch ? (emailMatch[1] || emailMatch[2]) : senderEmail;
+    
     const response = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
       headers: {
@@ -182,8 +213,8 @@ async function sendViaBrevo(email: string, verificationUrl: string, userName?: s
       },
       body: JSON.stringify({
         sender: {
-          email: process.env.EMAIL_FROM || "noreply@skillsync.com",
-          name: "SkillSync",
+          email: emailAddress.trim(),
+          name: senderName,
         },
         to: [{ email }],
         subject: "Welcome to SkillSync - Verify Your Email",

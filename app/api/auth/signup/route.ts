@@ -50,17 +50,27 @@ export async function POST(request: NextRequest) {
       message: "Account created successfully! Please check your email to verify your account.",
     })
   } catch (error: any) {
+    console.error("Signup error:", error)
+    
     if (error.message === "User already exists") {
       return NextResponse.json(
-        { error: "User already exists" },
+        { error: "An account with this email already exists. Please sign in instead." },
         { status: 409 }
       )
     }
 
-    console.error("Signup error:", error)
+    // Provide more specific error messages
+    const errorMessage = error.message || "Failed to create account"
+    const statusCode = error.message?.includes("already exists") || error.message?.includes("already registered") 
+      ? 409 
+      : 500
+
     return NextResponse.json(
-      { error: error.message || "Failed to create account" },
-      { status: 500 }
+      { 
+        error: errorMessage,
+        details: process.env.NODE_ENV === "development" ? error.stack : undefined
+      },
+      { status: statusCode }
     )
   }
 }

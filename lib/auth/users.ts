@@ -82,11 +82,14 @@ export async function createUser(
 ): Promise<User> {
   const normalizedEmail = email.toLowerCase();
 
-  // Check if user already exists in Supabase Auth
+  // Check if user already exists in custom users table
   const existingUser = await getUserByEmail(normalizedEmail);
   if (existingUser) {
     throw new Error("User already exists");
   }
+
+  // Check if user already exists in Supabase Auth by trying to get user by email
+  // We'll catch duplicate errors during creation instead for efficiency
 
   // Create user in Supabase Auth with email confirmation required
   // Supabase will automatically send confirmation email if SMTP is configured
@@ -99,9 +102,27 @@ export async function createUser(
     },
   });
 
-  if (authError || !authUser.user) {
-    console.error("Error creating user in Supabase Auth:", authError);
-    throw new Error("Failed to create user");
+  if (!authUser?.user) {
+    // Check if it's a duplicate user error
+    if (authError) {
+      const errorMsg = authError.message || String(authError);
+      if (
+        errorMsg.includes("already registered") || 
+        errorMsg.includes("already exists") ||
+        errorMsg.includes("duplicate") ||
+        authError.status === 422 // Supabase validation error
+      ) {
+        throw new Error("User already exists");
+      }
+      console.error("Error creating user in Supabase Auth:", {
+        message: authError.message,
+        status: authError.status,
+        name: authError.name,
+        error: authError
+      });
+      throw new Error(authError.message || "Failed to create user in authentication system");
+    }
+    throw new Error("Failed to create user - no user returned from authentication");
   }
 
   // Hash password for our custom table (for backwards compatibility)
@@ -115,7 +136,7 @@ export async function createUser(
       email: normalizedEmail,
       name: name || null,
       password_hash: hashedPassword,
-      email_verified: false,
+      email_verified: true,
     })
     .select("id, email, name, created_at, updated_at")
     .single();
