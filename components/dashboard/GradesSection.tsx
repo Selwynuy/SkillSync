@@ -3,381 +3,370 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { GraduationCap, Edit, Save, X, Loader2 } from "lucide-react";
-import { UserGrades, GradeLevel } from "@/lib/types";
-import { toast } from "sonner";
+import {
+  GraduationCap,
+  Edit,
+  Trophy,
+  Heart,
+  Users,
+  Briefcase,
+  Languages as LanguagesIcon,
+  ExternalLink
+} from "lucide-react";
+import { PersonalInformation, AcademicAchievement, Hobby, ExtracurricularActivity } from "@/lib/types";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 
 interface GradesSectionProps {
-  initialGrades: UserGrades | null;
-  onUpdate: (grades: UserGrades) => void;
+  initialGrades: PersonalInformation | null;
+  onUpdate: (grades: PersonalInformation) => void;
 }
 
 export function GradesSection({ initialGrades, onUpdate }: GradesSectionProps) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-
-  const [grade7, setGrade7] = useState<GradeLevel>(initialGrades?.grade7 || {});
-  const [grade8, setGrade8] = useState<GradeLevel>(initialGrades?.grade8 || {});
-  const [grade9, setGrade9] = useState<GradeLevel>(initialGrades?.grade9 || {});
-  const [grade10, setGrade10] = useState<GradeLevel>(initialGrades?.grade10 || {});
-  const [additionalNotes, setAdditionalNotes] = useState(
-    initialGrades?.additionalNotes || ""
-  );
-  const [consentChecked, setConsentChecked] = useState(
-    initialGrades?.consentToUse || false
-  );
-
-  const handleGradeChange = (
-    gradeLevel: "grade7" | "grade8" | "grade9" | "grade10",
-    subject: "math" | "english" | "science" | "gpa",
-    value: string
-  ) => {
-    const numValue = value === "" ? undefined : parseFloat(value);
-    const setters = {
-      grade7: setGrade7,
-      grade8: setGrade8,
-      grade9: setGrade9,
-      grade10: setGrade10,
-    };
-
-    setters[gradeLevel]((prev) => ({
-      ...prev,
-      [subject]: numValue,
-    }));
-  };
-
-  const handleCancel = () => {
-    // Reset to initial values
-    setGrade7(initialGrades?.grade7 || {});
-    setGrade8(initialGrades?.grade8 || {});
-    setGrade9(initialGrades?.grade9 || {});
-    setGrade10(initialGrades?.grade10 || {});
-    setAdditionalNotes(initialGrades?.additionalNotes || "");
-    setConsentChecked(initialGrades?.consentToUse || false);
-    setIsEditing(false);
-  };
-
-  const handleSave = async () => {
-    // Validate consent if grades are provided
-    const hasAnyGrades =
-      Object.values(grade7).some((v) => v !== undefined) ||
-      Object.values(grade8).some((v) => v !== undefined) ||
-      Object.values(grade9).some((v) => v !== undefined) ||
-      Object.values(grade10).some((v) => v !== undefined);
-
-    if (hasAnyGrades && !consentChecked) {
-      toast.error("Please consent to the use of your grades");
-      return;
-    }
-
-    setIsSaving(true);
-
-    try {
-      const response = await fetch("/api/grades", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          grade7,
-          grade8,
-          grade9,
-          grade10,
-          additionalNotes,
-          consentToUse: consentChecked,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to save grades");
-      }
-
-      const data = await response.json();
-      onUpdate(data.grades);
-      setIsEditing(false);
-      toast.success("Grades updated successfully!");
-    } catch (error) {
-      console.error("Error saving grades:", error);
-      toast.error("Failed to save grades");
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
   const hasGrades = initialGrades !== null;
 
+  // Calculate if user has any grades filled
+  const hasAnyGrades = hasGrades && (
+    initialGrades.grade7 ||
+    initialGrades.grade8 ||
+    initialGrades.grade9 ||
+    initialGrades.grade10 ||
+    initialGrades.grade11 ||
+    initialGrades.grade12
+  );
+
+  const hasPersonalInfo = hasGrades && (
+    (initialGrades.achievements && initialGrades.achievements.length > 0) ||
+    (initialGrades.hobbies && initialGrades.hobbies.length > 0) ||
+    (initialGrades.extracurriculars && initialGrades.extracurriculars.length > 0) ||
+    (initialGrades.skills && initialGrades.skills.length > 0) ||
+    (initialGrades.languages && initialGrades.languages.length > 0)
+  );
+
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-              <GraduationCap className="h-5 w-5 text-primary" />
-            </div>
-            <div>
-              <CardTitle>Academic Grades</CardTitle>
-              <CardDescription>
-                {hasGrades
-                  ? "Your academic performance from grades 7-10"
-                  : "Add your grades to enhance AI recommendations"}
-              </CardDescription>
-            </div>
-          </div>
-          {!isEditing && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsEditing(true)}
-            >
-              <Edit className="h-4 w-4 mr-2" />
-              {hasGrades ? "Edit" : "Add Grades"}
-            </Button>
-          )}
-          {isEditing && (
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleCancel}
-                disabled={isSaving}
-              >
-                <X className="h-4 w-4 mr-2" />
-                Cancel
-              </Button>
-              <Button size="sm" onClick={handleSave} disabled={isSaving}>
-                {isSaving ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Saving...
-                  </>
-                ) : (
-                  <>
-                    <Save className="h-4 w-4 mr-2" />
-                    Save
-                  </>
-                )}
-              </Button>
-            </div>
-          )}
-        </div>
-      </CardHeader>
-      <CardContent>
-        {!hasGrades && !isEditing ? (
-          <div className="text-center py-8 text-muted-foreground">
-            <p className="mb-4">
-              No grades on file. Adding your grades can help provide more
-              personalized career recommendations.
-            </p>
-            <Button variant="outline" onClick={() => setIsEditing(true)}>
-              Add Your Grades
-            </Button>
-          </div>
-        ) : (
-          <div className="space-y-6">
-            <GradeInputSection
-              title="Grade 7"
-              grades={grade7}
-              onChange={(subject, value) =>
-                handleGradeChange("grade7", subject, value)
-              }
-              readOnly={!isEditing}
-            />
-            <GradeInputSection
-              title="Grade 8"
-              grades={grade8}
-              onChange={(subject, value) =>
-                handleGradeChange("grade8", subject, value)
-              }
-              readOnly={!isEditing}
-            />
-            <GradeInputSection
-              title="Grade 9"
-              grades={grade9}
-              onChange={(subject, value) =>
-                handleGradeChange("grade9", subject, value)
-              }
-              readOnly={!isEditing}
-            />
-            <GradeInputSection
-              title="Grade 10"
-              grades={grade10}
-              onChange={(subject, value) =>
-                handleGradeChange("grade10", subject, value)
-              }
-              readOnly={!isEditing}
-            />
-
-            {/* Additional Notes */}
-            <div className="space-y-2 pt-4 border-t">
-              <Label htmlFor="notes">Additional Notes</Label>
-              {isEditing ? (
-                <Textarea
-                  id="notes"
-                  placeholder="Add any relevant academic achievements, awards, or context..."
-                  value={additionalNotes}
-                  onChange={(e) => setAdditionalNotes(e.target.value)}
-                  rows={3}
-                />
-              ) : additionalNotes ? (
-                <p className="text-sm text-muted-foreground">{additionalNotes}</p>
-              ) : (
-                <p className="text-sm text-muted-foreground italic">No additional notes</p>
-              )}
-            </div>
-
-            {/* Consent */}
-            {isEditing && (
-              <div className="flex items-start space-x-3 rounded-lg border p-4 bg-muted/50">
-                <Checkbox
-                  id="consent"
-                  checked={consentChecked}
-                  onCheckedChange={(checked) =>
-                    setConsentChecked(checked === true)
-                  }
-                />
-                <div className="space-y-1 leading-none">
-                  <Label
-                    htmlFor="consent"
-                    className="text-sm font-medium cursor-pointer"
-                  >
-                    I consent to the use of my academic grades
-                  </Label>
-                  <p className="text-sm text-muted-foreground">
-                    Your grades will be used to improve career recommendations
-                    through AI analysis.
-                  </p>
-                </div>
+    <div className="space-y-6">
+      {/* Academic Grades Card */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                <GraduationCap className="h-5 w-5 text-primary" />
               </div>
-            )}
-            {!isEditing && (
-              <div className="text-sm text-muted-foreground pt-4 border-t">
-                {consentChecked ? (
+              <div>
+                <CardTitle>Personal Information</CardTitle>
+                <CardDescription>
+                  {hasGrades
+                    ? "Your academic background and personal profile"
+                    : "Add your information to enhance AI recommendations"}
+                </CardDescription>
+              </div>
+            </div>
+            <Link href="/assessments/grades">
+              <Button variant="outline" size="sm">
+                <Edit className="h-4 w-4 mr-2" />
+                {hasGrades ? "Edit" : "Add Info"}
+              </Button>
+            </Link>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {!hasGrades || (!hasAnyGrades && !hasPersonalInfo) ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <p className="mb-4">
+                No personal information on file. Adding your grades, achievements, and interests can help provide more
+                personalized career recommendations.
+              </p>
+              <Link href="/assessments/grades">
+                <Button variant="outline">
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  Add Your Information
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Grades Summary */}
+              {hasAnyGrades && (
+                <div className="space-y-4">
+                  <h3 className="font-semibold text-sm flex items-center gap-2">
+                    <GraduationCap className="h-4 w-4" />
+                    Academic Grades
+                  </h3>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {initialGrades.grade7 && Object.keys(initialGrades.grade7).length > 0 && (
+                      <GradeSummaryCard title="Grade 7" grades={initialGrades.grade7} />
+                    )}
+                    {initialGrades.grade8 && Object.keys(initialGrades.grade8).length > 0 && (
+                      <GradeSummaryCard title="Grade 8" grades={initialGrades.grade8} />
+                    )}
+                    {initialGrades.grade9 && Object.keys(initialGrades.grade9).length > 0 && (
+                      <GradeSummaryCard title="Grade 9" grades={initialGrades.grade9} />
+                    )}
+                    {initialGrades.grade10 && Object.keys(initialGrades.grade10).length > 0 && (
+                      <GradeSummaryCard title="Grade 10" grades={initialGrades.grade10} />
+                    )}
+                    {initialGrades.grade11 && Object.keys(initialGrades.grade11).length > 0 && (
+                      <GradeSummaryCard title="Grade 11" grades={initialGrades.grade11} />
+                    )}
+                    {initialGrades.grade12 && Object.keys(initialGrades.grade12).length > 0 && (
+                      <GradeSummaryCard title="Grade 12" grades={initialGrades.grade12} />
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Achievements */}
+              {initialGrades.achievements && initialGrades.achievements.length > 0 && (
+                <div className="space-y-4 pt-4 border-t">
+                  <h3 className="font-semibold text-sm flex items-center gap-2">
+                    <Trophy className="h-4 w-4 text-yellow-600" />
+                    Achievements & Awards ({initialGrades.achievements.length})
+                  </h3>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {initialGrades.achievements.slice(0, 4).map((achievement) => (
+                      <AchievementCard key={achievement.id} achievement={achievement} />
+                    ))}
+                  </div>
+                  {initialGrades.achievements.length > 4 && (
+                    <p className="text-xs text-muted-foreground">
+                      +{initialGrades.achievements.length - 4} more achievements
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* Hobbies */}
+              {initialGrades.hobbies && initialGrades.hobbies.length > 0 && (
+                <div className="space-y-4 pt-4 border-t">
+                  <h3 className="font-semibold text-sm flex items-center gap-2">
+                    <Heart className="h-4 w-4 text-pink-600" />
+                    Hobbies & Interests ({initialGrades.hobbies.length})
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {initialGrades.hobbies.map((hobby) => (
+                      <HobbyBadge key={hobby.id} hobby={hobby} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Extracurriculars */}
+              {initialGrades.extracurriculars && initialGrades.extracurriculars.length > 0 && (
+                <div className="space-y-4 pt-4 border-t">
+                  <h3 className="font-semibold text-sm flex items-center gap-2">
+                    <Users className="h-4 w-4 text-blue-600" />
+                    Extracurricular Activities ({initialGrades.extracurriculars.length})
+                  </h3>
+                  <div className="space-y-2">
+                    {initialGrades.extracurriculars.slice(0, 3).map((activity) => (
+                      <ExtracurricularItem key={activity.id} activity={activity} />
+                    ))}
+                  </div>
+                  {initialGrades.extracurriculars.length > 3 && (
+                    <p className="text-xs text-muted-foreground">
+                      +{initialGrades.extracurriculars.length - 3} more activities
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* Skills & Languages */}
+              <div className="grid gap-6 sm:grid-cols-2 pt-4 border-t">
+                {initialGrades.skills && initialGrades.skills.length > 0 && (
+                  <div className="space-y-3">
+                    <h3 className="font-semibold text-sm flex items-center gap-2">
+                      <Briefcase className="h-4 w-4 text-purple-600" />
+                      Skills
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {initialGrades.skills.map((skill, index) => (
+                        <Badge key={index} variant="secondary">
+                          {skill}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {initialGrades.languages && initialGrades.languages.length > 0 && (
+                  <div className="space-y-3">
+                    <h3 className="font-semibold text-sm flex items-center gap-2">
+                      <LanguagesIcon className="h-4 w-4 text-green-600" />
+                      Languages
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {initialGrades.languages.map((language, index) => (
+                        <Badge key={index} variant="secondary">
+                          {language}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Additional Notes */}
+              {initialGrades.additionalNotes && (
+                <div className="space-y-2 pt-4 border-t">
+                  <h3 className="font-semibold text-sm">Additional Notes</h3>
+                  <p className="text-sm text-muted-foreground">{initialGrades.additionalNotes}</p>
+                </div>
+              )}
+
+              {/* Consent Status */}
+              <div className="text-sm pt-4 border-t">
+                {initialGrades.consentToUse ? (
                   <p className="text-green-600 dark:text-green-400">
-                    ✓ Consent provided for AI analysis
+                    ✓ Information is being used for AI-powered career recommendations
                   </p>
                 ) : (
                   <p className="text-amber-600 dark:text-amber-400">
-                    ⚠ Consent not provided - grades won't be used for AI analysis
+                    ⚠ Consent not provided - information won't be used for AI analysis
                   </p>
                 )}
               </div>
-            )}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 
-interface GradeInputSectionProps {
-  title: string;
-  grades: GradeLevel;
-  onChange: (subject: "math" | "english" | "science" | "gpa", value: string) => void;
-  readOnly?: boolean;
-}
+// Grade Summary Card Component
+function GradeSummaryCard({ title, grades }: { title: string; grades: any }) {
+  const subjects = [];
 
-function GradeInputSection({
-  title,
-  grades,
-  onChange,
-  readOnly = false,
-}: GradeInputSectionProps) {
-  const hasAnyGrade = Object.values(grades).some((v) => v !== undefined);
+  if (grades.math !== undefined) subjects.push({ name: "Math", value: grades.math });
+  if (grades.english !== undefined) subjects.push({ name: "English", value: grades.english });
+  if (grades.science !== undefined) subjects.push({ name: "Science", value: grades.science });
+  if (grades.filipino !== undefined) subjects.push({ name: "Filipino", value: grades.filipino });
+  if (grades.totalAverage !== undefined) subjects.push({ name: "Total Average", value: grades.totalAverage });
+  if (grades.gpa !== undefined) subjects.push({ name: "GPA", value: grades.gpa });
 
-  if (readOnly && !hasAnyGrade) {
-    return null; // Don't show empty grade levels in read-only mode
+  // Add custom subjects
+  if (grades.customSubjects && grades.customSubjects.length > 0) {
+    grades.customSubjects.forEach((subject: any) => {
+      subjects.push({ name: subject.name, value: subject.grade });
+    });
   }
 
+  // Calculate average
+  const average = subjects.length > 0
+    ? (subjects.reduce((sum, s) => sum + s.value, 0) / subjects.length).toFixed(2)
+    : "—";
+
   return (
-    <div className="space-y-3">
-      <h3 className="font-semibold text-sm text-muted-foreground">{title}</h3>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="space-y-1">
-          <Label htmlFor={`${title}-math`} className="text-xs">
-            Math
-          </Label>
-          {readOnly ? (
-            <div className="text-sm font-medium">
-              {grades.math !== undefined ? grades.math : "—"}
-            </div>
-          ) : (
-            <Input
-              id={`${title}-math`}
-              type="number"
-              step="0.01"
-              min="0"
-              max="100"
-              placeholder="0-100"
-              value={grades.math ?? ""}
-              onChange={(e) => onChange("math", e.target.value)}
-            />
+    <div className="p-4 border rounded-lg bg-muted/50">
+      <div className="flex items-center justify-between mb-3">
+        <h4 className="font-medium text-sm">{title}</h4>
+        <span className="text-xs text-muted-foreground">
+          Avg: <span className="font-semibold text-foreground">{average}</span>
+        </span>
+      </div>
+      <div className="space-y-1">
+        {subjects.slice(0, 4).map((subject, index) => (
+          <div key={index} className="flex justify-between text-xs">
+            <span className="text-muted-foreground">{subject.name}</span>
+            <span className="font-medium">{subject.value}</span>
+          </div>
+        ))}
+        {subjects.length > 4 && (
+          <p className="text-xs text-muted-foreground">+{subjects.length - 4} more</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Achievement Card Component
+function AchievementCard({ achievement }: { achievement: AcademicAchievement }) {
+  const categoryColors: Record<string, string> = {
+    academic: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
+    extracurricular: "bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300",
+    competition: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300",
+    leadership: "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
+    other: "bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300",
+  };
+
+  return (
+    <div className="p-3 border rounded-lg bg-card">
+      <div className="flex items-start justify-between gap-2 mb-1">
+        <h4 className="font-medium text-sm line-clamp-1">{achievement.title}</h4>
+        {achievement.category && (
+          <Badge
+            variant="secondary"
+            className={`text-xs shrink-0 ${categoryColors[achievement.category] || ""}`}
+          >
+            {achievement.category}
+          </Badge>
+        )}
+      </div>
+      {achievement.description && (
+        <p className="text-xs text-muted-foreground line-clamp-2 mb-1">
+          {achievement.description}
+        </p>
+      )}
+      {achievement.dateReceived && (
+        <p className="text-xs text-muted-foreground">
+          {new Date(achievement.dateReceived).toLocaleDateString()}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// Hobby Badge Component
+function HobbyBadge({ hobby }: { hobby: Hobby }) {
+  const skillLevelColors: Record<string, string> = {
+    beginner: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
+    intermediate: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
+    advanced: "bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300",
+    expert: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300",
+  };
+
+  return (
+    <div
+      className={`px-3 py-1.5 rounded-full text-sm font-medium ${
+        hobby.skillLevel ? skillLevelColors[hobby.skillLevel] : "bg-secondary text-secondary-foreground"
+      }`}
+      title={hobby.description || undefined}
+    >
+      {hobby.name}
+      {hobby.skillLevel && (
+        <span className="ml-1 text-xs opacity-70">
+          ({hobby.skillLevel})
+        </span>
+      )}
+    </div>
+  );
+}
+
+// Extracurricular Item Component
+function ExtracurricularItem({ activity }: { activity: ExtracurricularActivity }) {
+  return (
+    <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
+      <div className="mt-0.5">
+        <Users className="h-4 w-4 text-muted-foreground" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between gap-2">
+          <h4 className="font-medium text-sm">{activity.name}</h4>
+          {activity.yearsActive && activity.yearsActive > 0 && (
+            <span className="text-xs text-muted-foreground shrink-0">
+              {activity.yearsActive}yr{activity.yearsActive > 1 ? "s" : ""}
+            </span>
           )}
         </div>
-        <div className="space-y-1">
-          <Label htmlFor={`${title}-english`} className="text-xs">
-            English
-          </Label>
-          {readOnly ? (
-            <div className="text-sm font-medium">
-              {grades.english !== undefined ? grades.english : "—"}
-            </div>
-          ) : (
-            <Input
-              id={`${title}-english`}
-              type="number"
-              step="0.01"
-              min="0"
-              max="100"
-              placeholder="0-100"
-              value={grades.english ?? ""}
-              onChange={(e) => onChange("english", e.target.value)}
-            />
-          )}
-        </div>
-        <div className="space-y-1">
-          <Label htmlFor={`${title}-science`} className="text-xs">
-            Science
-          </Label>
-          {readOnly ? (
-            <div className="text-sm font-medium">
-              {grades.science !== undefined ? grades.science : "—"}
-            </div>
-          ) : (
-            <Input
-              id={`${title}-science`}
-              type="number"
-              step="0.01"
-              min="0"
-              max="100"
-              placeholder="0-100"
-              value={grades.science ?? ""}
-              onChange={(e) => onChange("science", e.target.value)}
-            />
-          )}
-        </div>
-        <div className="space-y-1">
-          <Label htmlFor={`${title}-gpa`} className="text-xs">
-            GPA
-          </Label>
-          {readOnly ? (
-            <div className="text-sm font-medium">
-              {grades.gpa !== undefined ? grades.gpa : "—"}
-            </div>
-          ) : (
-            <Input
-              id={`${title}-gpa`}
-              type="number"
-              step="0.01"
-              min="0"
-              max="5"
-              placeholder="0-5"
-              value={grades.gpa ?? ""}
-              onChange={(e) => onChange("gpa", e.target.value)}
-            />
-          )}
-        </div>
+        {activity.role && (
+          <p className="text-xs text-muted-foreground">{activity.role}</p>
+        )}
+        {activity.description && (
+          <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">
+            {activity.description}
+          </p>
+        )}
       </div>
     </div>
   );

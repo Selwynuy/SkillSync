@@ -279,25 +279,88 @@ export interface User {
   updatedAt: Date;
 }
 
+// Custom subject that user can add
+export interface CustomSubject {
+  id: string;
+  name: string;
+  grade: number;
+}
+
+// Grade level with customizable subjects
 export interface GradeLevel {
   math?: number;
   english?: number;
   science?: number;
-  gpa?: number;
+  filipino?: number;
+  totalAverage?: number; // For high school (replaces GPA)
+  customSubjects?: CustomSubject[];
 }
 
-export interface UserGrades {
+// Academic achievement/award
+export interface AcademicAchievement {
+  id: string;
+  title: string;
+  description?: string;
+  dateReceived?: string;
+  category?: 'academic' | 'extracurricular' | 'competition' | 'leadership' | 'other';
+}
+
+// Hobby/Interest
+export interface Hobby {
+  id: string;
+  name: string;
+  description?: string;
+  skillLevel?: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+}
+
+// Extracurricular activity
+export interface ExtracurricularActivity {
+  id: string;
+  name: string;
+  role?: string;
+  description?: string;
+  yearsActive?: number;
+}
+
+// Personal information (formerly UserGrades)
+export interface PersonalInformation {
   id: string;
   userId: string;
+
+  // Academic grades
   grade7?: GradeLevel;
   grade8?: GradeLevel;
   grade9?: GradeLevel;
   grade10?: GradeLevel;
+  grade11?: GradeLevel;
+  grade12?: GradeLevel;
+
+  // Achievements and awards
+  achievements?: AcademicAchievement[];
+
+  // Hobbies and interests
+  hobbies?: Hobby[];
+
+  // Extracurricular activities
+  extracurriculars?: ExtracurricularActivity[];
+
+  // Additional personal info
+  skills?: string[]; // Technical or soft skills
+  languages?: string[]; // Languages spoken
+
+  // Notes
   additionalNotes?: string;
+
+  // Consent
   consentToUse: boolean;
+
+  // Timestamps
   createdAt: Date;
   updatedAt: Date;
 }
+
+// Backwards compatibility alias
+export type UserGrades = PersonalInformation;
 
 // ----------------------------------------------------------------------------
 // Mock Data: Local Market
