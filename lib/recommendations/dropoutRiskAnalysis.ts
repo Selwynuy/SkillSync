@@ -230,10 +230,10 @@ function analyzeAcademicGap(
   // Check GPA requirements
   if (
     track.recommendedGrades.gpa &&
-    latestGrades.gpa &&
-    latestGrades.gpa < track.recommendedGrades.gpa
+    latestGrades.totalAverage &&
+    latestGrades.totalAverage < track.recommendedGrades.gpa
   ) {
-    const gpaGap = track.recommendedGrades.gpa - latestGrades.gpa;
+    const gpaGap = track.recommendedGrades.gpa - latestGrades.totalAverage;
     gaps.push(gpaGap * 25); // Convert GPA gap to percentage scale
     weakAreas.push("GPA");
   }
@@ -289,7 +289,7 @@ function calculateAverageGrade(userGrades: UserGrades): number {
   if (latestGrades.science) grades.push(latestGrades.science);
 
   if (grades.length === 0) {
-    return latestGrades.gpa ? latestGrades.gpa * 25 : 0; // Convert GPA to percentage
+    return latestGrades.totalAverage ? latestGrades.totalAverage * 25 : 0; // Convert GPA to percentage
   }
 
   return grades.reduce((a, b) => a + b, 0) / grades.length;

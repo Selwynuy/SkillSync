@@ -64,12 +64,9 @@ function calculateAverageTotalGrade(info: PersonalInformation): number {
 
   [info.grade7, info.grade8, info.grade9, info.grade10, info.grade11, info.grade12].forEach((level) => {
     if (level) {
-      // Prefer totalAverage over GPA
+      // Use totalAverage (which is already in percentage format)
       if (level.totalAverage !== undefined) {
         totals.push(level.totalAverage);
-      } else if (level.gpa !== undefined) {
-        // Convert GPA (0-5) to percentage (0-100)
-        totals.push((level.gpa / 5) * 100);
       }
     }
   });

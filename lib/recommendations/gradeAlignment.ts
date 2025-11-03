@@ -103,14 +103,14 @@ export function analyzeGradeAlignment(
 
   // Check GPA requirements
   if (track.recommendedGrades.gpa) {
-    if (latestGrades.gpa) {
-      if (latestGrades.gpa >= track.recommendedGrades.gpa + 0.5) {
-        strengthAreas.push(`GPA (${latestGrades.gpa.toFixed(2)} - Excellent!)`);
-      } else if (latestGrades.gpa >= track.recommendedGrades.gpa) {
-        strengthAreas.push(`GPA (${latestGrades.gpa.toFixed(2)} - Meets requirements)`);
+    if (latestGrades.totalAverage) {
+      if (latestGrades.totalAverage >= track.recommendedGrades.gpa + 0.5) {
+        strengthAreas.push(`GPA (${latestGrades.totalAverage.toFixed(2)} - Excellent!)`);
+      } else if (latestGrades.totalAverage >= track.recommendedGrades.gpa) {
+        strengthAreas.push(`GPA (${latestGrades.totalAverage.toFixed(2)} - Meets requirements)`);
       } else {
         improvementAreas.push(
-          `GPA (${latestGrades.gpa.toFixed(2)} - Recommended: ${track.recommendedGrades.gpa}+)`
+          `GPA (${latestGrades.totalAverage.toFixed(2)} - Recommended: ${track.recommendedGrades.gpa}+)`
         );
         requirementsMet = false;
       }
@@ -222,8 +222,8 @@ export function calculateAcademicReadiness(
     totalWeight += 1;
   }
 
-  if (track.recommendedGrades.gpa && latestGrades.gpa) {
-    const score = Math.min(100, (latestGrades.gpa / track.recommendedGrades.gpa) * 100);
+  if (track.recommendedGrades.gpa && latestGrades.totalAverage) {
+    const score = Math.min(100, (latestGrades.totalAverage / track.recommendedGrades.gpa) * 100);
     totalScore += score;
     totalWeight += 1;
   }

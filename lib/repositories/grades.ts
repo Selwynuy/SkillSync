@@ -28,7 +28,6 @@ function mapRowToUserGrades(data: any): UserGrades {
       science: data.grade_7_science,
       filipino: data.grade_7_filipino,
       totalAverage: data.grade_7_total_average,
-      gpa: data.grade_7_gpa, // Keep for backwards compatibility
       customSubjects: data.grade_7_custom_subjects || [],
     },
     grade8: {
@@ -37,7 +36,6 @@ function mapRowToUserGrades(data: any): UserGrades {
       science: data.grade_8_science,
       filipino: data.grade_8_filipino,
       totalAverage: data.grade_8_total_average,
-      gpa: data.grade_8_gpa,
       customSubjects: data.grade_8_custom_subjects || [],
     },
     grade9: {
@@ -46,7 +44,6 @@ function mapRowToUserGrades(data: any): UserGrades {
       science: data.grade_9_science,
       filipino: data.grade_9_filipino,
       totalAverage: data.grade_9_total_average,
-      gpa: data.grade_9_gpa,
       customSubjects: data.grade_9_custom_subjects || [],
     },
     grade10: {
@@ -55,7 +52,6 @@ function mapRowToUserGrades(data: any): UserGrades {
       science: data.grade_10_science,
       filipino: data.grade_10_filipino,
       totalAverage: data.grade_10_total_average,
-      gpa: data.grade_10_gpa,
       customSubjects: data.grade_10_custom_subjects || [],
     },
     grade11: data.grade_11_math || data.grade_11_english || data.grade_11_science || data.grade_11_filipino
@@ -133,7 +129,6 @@ export async function upsertUserGrades(
       grade_7_science: info.grade7?.science ?? null,
       grade_7_filipino: info.grade7?.filipino ?? null,
       grade_7_total_average: info.grade7?.totalAverage ?? null,
-      grade_7_gpa: info.grade7?.gpa ?? null,
       grade_7_custom_subjects: info.grade7?.customSubjects ?? [],
       // Grade 8
       grade_8_math: info.grade8?.math ?? null,
@@ -141,7 +136,6 @@ export async function upsertUserGrades(
       grade_8_science: info.grade8?.science ?? null,
       grade_8_filipino: info.grade8?.filipino ?? null,
       grade_8_total_average: info.grade8?.totalAverage ?? null,
-      grade_8_gpa: info.grade8?.gpa ?? null,
       grade_8_custom_subjects: info.grade8?.customSubjects ?? [],
       // Grade 9
       grade_9_math: info.grade9?.math ?? null,
@@ -149,7 +143,6 @@ export async function upsertUserGrades(
       grade_9_science: info.grade9?.science ?? null,
       grade_9_filipino: info.grade9?.filipino ?? null,
       grade_9_total_average: info.grade9?.totalAverage ?? null,
-      grade_9_gpa: info.grade9?.gpa ?? null,
       grade_9_custom_subjects: info.grade9?.customSubjects ?? [],
       // Grade 10
       grade_10_math: info.grade10?.math ?? null,
@@ -157,7 +150,6 @@ export async function upsertUserGrades(
       grade_10_science: info.grade10?.science ?? null,
       grade_10_filipino: info.grade10?.filipino ?? null,
       grade_10_total_average: info.grade10?.totalAverage ?? null,
-      grade_10_gpa: info.grade10?.gpa ?? null,
       grade_10_custom_subjects: info.grade10?.customSubjects ?? [],
       // Grade 11
       grade_11_math: info.grade11?.math ?? null,
