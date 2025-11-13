@@ -27,7 +27,7 @@
 
 ```bash
 # Navigate to project directory
-cd D:\Projects\SkillSync
+cd D:\Projects\Puhon
 
 # Run migration
 psql postgresql://postgres:dWvtV8W4CHC1eJ2E@db.audidgordwfztfvaqxrr.supabase.co:5432/postgres -f supabase/migrations/20250103_enhance_user_grades_to_personal_info.sql

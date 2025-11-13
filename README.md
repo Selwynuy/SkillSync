@@ -1,4 +1,4 @@
-# SkillSync
+# Puhon
 
 AI-powered career assessment and personalized job path recommendations for students. Discover your perfect career path through comprehensive assessments and data-driven insights.
 
@@ -46,7 +46,7 @@ AI-powered career assessment and personalized job path recommendations for stude
 1. **Clone the repository**
    ```bash
    git clone <your-repo-url>
-   cd SkillSync
+   cd Puhon
    ```
 
 2. **Install dependencies**
@@ -89,7 +89,7 @@ AI-powered career assessment and personalized job path recommendations for stude
 ## 🏗️ Project Structure
 
 ```
-SkillSync/
+Puhon/
 ├── app/                    # Next.js App Router pages
 │   ├── (marketing)/       # Marketing pages and components
 │   ├── api/               # API routes

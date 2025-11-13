@@ -72,13 +72,13 @@ export default function SignUpPage() {
           <Link href="/" className="inline-flex items-center space-x-2">
             <Image
               src="/logo.png"
-              alt="SkillSync Logo"
+              alt="Puhon Logo"
               width={40}
               height={40}
               className="h-10 w-10 object-cover"
               priority
             />
-            <span className="text-2xl font-bold">SkillSync</span>
+            <span className="text-2xl font-bold">Puhon</span>
           </Link>
         </div>
 

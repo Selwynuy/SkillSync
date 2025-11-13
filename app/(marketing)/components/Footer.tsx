@@ -59,16 +59,16 @@ export function Footer() {
             <div className="flex items-center space-x-2">
               <Image
                 src="/logo.png"
-                alt="SkillSync Logo"
+                alt="Puhon Logo"
                 width={24}
                 height={24}
                 className="h-6 w-6 object-cover"
               />
-              <span className="text-sm font-semibold">SkillSync</span>
+              <span className="text-sm font-semibold">Puhon</span>
             </div>
 
             <p className="text-sm text-muted-foreground">
-              © {currentYear} SkillSync. All rights reserved.
+              © {currentYear} Puhon. All rights reserved.
             </p>
 
             <div className="flex gap-6">

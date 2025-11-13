@@ -356,7 +356,7 @@ export function ChatBot() {
             </Button>
           </div>
           <p className="text-xs text-muted-foreground mt-2 text-center">
-            Powered by AI • Responses based on SkillSync data
+            Powered by AI • Responses based on Puhon data
           </p>
         </div>
       </CardContent>

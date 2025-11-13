@@ -30,16 +30,16 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" aria-label="Main navigation">
       <div className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2" aria-label="SkillSync home">
+        <Link href="/" className="flex items-center space-x-2" aria-label="Puhon home">
           <Image
             src="/logo.png"
-            alt="SkillSync Logo"
+            alt="Puhon Logo"
             width={32}
             height={32}
             className="h-8 w-8 object-cover"
             priority
           />
-          <span className="text-xl font-bold">SkillSync</span>
+          <span className="text-xl font-bold">Puhon</span>
         </Link>
 
         {/* Desktop Navigation */}

@@ -58,7 +58,7 @@ export async function sendVerificationEmail(
       console.log("   4. Mailgun: https://mailgun.com (5k/month free)");
       console.log("   5. Supabase SMTP: Configure in Supabase dashboard (if you have SMTP credentials)");
       console.log("\n📝 TIP: For Resend, you can use 'onboarding@resend.dev' without domain verification!");
-      console.log("   Just set: EMAIL_FROM='SkillSync <onboarding@resend.dev>'");
+      console.log("   Just set: EMAIL_FROM='Puhon <onboarding@resend.dev>'");
       console.log("==============================================\n");
       return true;
     }
@@ -83,9 +83,9 @@ async function sendViaResend(email: string, verificationUrl: string, userName?: 
         "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: process.env.EMAIL_FROM || "SkillSync <onboarding@resend.dev>", // Use your verified domain: "SkillSync <noreply@yourdomain.com>"
+        from: process.env.EMAIL_FROM || "Puhon <onboarding@resend.dev>", // Use your verified domain: "Puhon <noreply@yourdomain.com>"
         to: email,
-        subject: "Welcome to SkillSync - Verify Your Email",
+        subject: "Welcome to Puhon - Verify Your Email",
         html: getVerificationEmailTemplate(verificationUrl, userName),
       }),
     });
@@ -108,7 +108,7 @@ async function sendViaResend(email: string, verificationUrl: string, userName?: 
         console.error("1. Use Resend's test domain: onboarding@resend.dev (default)");
         console.error("2. Verify your own domain in Resend dashboard");
         console.error("3. Set EMAIL_FROM env var to your verified domain");
-        console.error("   Example: EMAIL_FROM='SkillSync <noreply@yourdomain.com>'");
+        console.error("   Example: EMAIL_FROM='Puhon <noreply@yourdomain.com>'");
       }
       
       return false;
@@ -134,8 +134,8 @@ async function sendViaSendGrid(email: string, verificationUrl: string, userName?
       },
       body: JSON.stringify({
         personalizations: [{ to: [{ email }] }],
-        from: { email: process.env.EMAIL_FROM || "noreply@skillsync.com", name: "SkillSync" },
-        subject: "Welcome to SkillSync - Verify Your Email",
+        from: { email: process.env.EMAIL_FROM || "noreply@puhon.com", name: "Puhon" },
+        subject: "Welcome to Puhon - Verify Your Email",
         content: [{
           type: "text/html",
           value: getVerificationEmailTemplate(verificationUrl, userName),
@@ -166,9 +166,9 @@ async function sendViaMailgun(email: string, verificationUrl: string, userName?:
     const auth = Buffer.from(`api:${apiKey}`).toString('base64');
 
     const formData = new URLSearchParams();
-    formData.append('from', process.env.EMAIL_FROM || `SkillSync <noreply@${domain}>`);
+    formData.append('from', process.env.EMAIL_FROM || `Puhon <noreply@${domain}>`);
     formData.append('to', email);
-    formData.append('subject', 'Welcome to SkillSync - Verify Your Email');
+    formData.append('subject', 'Welcome to Puhon - Verify Your Email');
     formData.append('html', getVerificationEmailTemplate(verificationUrl, userName));
 
     const response = await fetch(`https://api.mailgun.net/v3/${domain}/messages`, {
@@ -199,7 +199,7 @@ async function sendViaBrevo(email: string, verificationUrl: string, userName?: s
   try {
     // Brevo allows any email in sender address - no domain verification needed
     const senderEmail = process.env.EMAIL_FROM || "noreply@brevo.com";
-    const senderName = "SkillSync";
+    const senderName = "Puhon";
     
     // Extract email from format like "Name <email@domain.com>" or just "email@domain.com"
     const emailMatch = senderEmail.match(/<(.+)>|^(.+)$/);
@@ -217,7 +217,7 @@ async function sendViaBrevo(email: string, verificationUrl: string, userName?: s
           name: senderName,
         },
         to: [{ email }],
-        subject: "Welcome to SkillSync - Verify Your Email",
+        subject: "Welcome to Puhon - Verify Your Email",
         htmlContent: getVerificationEmailTemplate(verificationUrl, userName),
       }),
     });
@@ -242,7 +242,7 @@ function getVerificationEmailTemplate(verificationUrl: string, userName?: string
   return `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
       <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #0C3B2E; font-size: 28px; margin: 0; font-weight: 700;">Welcome to SkillSync!</h1>
+        <h1 style="color: #0C3B2E; font-size: 28px; margin: 0; font-weight: 700;">Welcome to Puhon!</h1>
       </div>
 
       <div style="background: #f9fafb; border-radius: 8px; padding: 30px; margin-bottom: 20px;">
@@ -276,7 +276,7 @@ function getVerificationEmailTemplate(verificationUrl: string, userName?: string
 
       <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
         <p style="color: #6b7280; font-size: 12px; line-height: 1.6; margin: 0 0 8px 0;">
-          If you didn't create an account with SkillSync, you can safely ignore this email.
+          If you didn't create an account with Puhon, you can safely ignore this email.
         </p>
         <p style="color: #6b7280; font-size: 12px; line-height: 1.6; margin: 0;">
           This link will expire in 24 hours.

@@ -45,13 +45,13 @@ You need to set up ONE of these free email providers:
 
 ```bash
 RESEND_API_KEY=re_xxxxxxxxxxxxx
-EMAIL_FROM=SkillSync <onboarding@resend.dev>  # Use this for testing!
+EMAIL_FROM=Puhon <onboarding@resend.dev>  # Use this for testing!
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
 **For production**: Verify your own domain in Resend dashboard, then change `EMAIL_FROM` to:
 ```bash
-EMAIL_FROM=SkillSync <noreply@yourdomain.com>
+EMAIL_FROM=Puhon <noreply@yourdomain.com>
 ```
 
 #### Option 2: Brevo (Sendinblue)
@@ -95,7 +95,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```bash
 MAILGUN_API_KEY=xxxxxxxxxxxxx
 MAILGUN_DOMAIN=yourdomain.com
-EMAIL_FROM=SkillSync <noreply@yourdomain.com>
+EMAIL_FROM=Puhon <noreply@yourdomain.com>
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
@@ -136,7 +136,7 @@ You can click that link to verify the email manually during development.
 ## Email Template
 
 The verification email includes:
-- Branded SkillSync welcome message
+- Branded Puhon welcome message
 - Clear "Verify Email Address" button
 - Backup verification link (if button doesn't work)
 - 24-hour expiration notice
@@ -167,7 +167,7 @@ Before deploying to production:
 
 - [ ] Database migration applied in production Supabase
 - [ ] Email provider API key added to production environment variables
-- [ ] `NEXT_PUBLIC_APP_URL` set to your production URL (e.g., `https://skillsync.com`)
+- [ ] `NEXT_PUBLIC_APP_URL` set to your production URL (e.g., `https://puhon.com`)
 - [ ] For Resend/Mailgun/SendGrid: Verify your domain
 - [ ] Update `EMAIL_FROM` to use your verified domain
 - [ ] Test signup flow in production
